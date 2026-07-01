@@ -1,0 +1,212 @@
+@font-face {
+    font-family: 'HelveticaNeueLTStd85Heavy';
+    src: url('/assets/fonts/helveticaneueltstd-hv-webfont.eot');
+    src: url('/assets/fonts/helveticaneueltstd-hv-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/assets/fonts/helveticaneueltstd-hv-webfont.woff') format('woff'),
+         url('/assets/fonts/helveticaneueltstd-hv-webfont.ttf') format('truetype'),
+         url('/assets/fonts/helveticaneueltstd-hv-webfont.svg#HelveticaNeueLTStd85Heavy') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'HelveticaNeueLTStd83HvEx';
+    src: url('/assets/fonts/helveticaneueltstd-hvex-webfont.eot');
+    src: url('/assets/fonts/helveticaneueltstd-hvex-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/assets/fonts/helveticaneueltstd-hvex-webfont.woff') format('woff'),
+         url('/assets/fonts/helveticaneueltstd-hvex-webfont.ttf') format('truetype'),
+         url('/assets/fonts/helveticaneueltstd-hvex-webfont.svg#HelveticaNeueLTStd83HvEx') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'HelveticaNeueLTStd75Bold';
+    src: url('/assets/fonts/helveticaneueltstd-bd-webfont.eot');
+    src: url('/assets/fonts/helveticaneueltstd-bd-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/assets/fonts/helveticaneueltstd-bd-webfont.woff') format('woff'),
+         url('/assets/fonts/helveticaneueltstd-bd-webfont.ttf') format('truetype'),
+         url('/assets/fonts/helveticaneueltstd-bd-webfont.svg#HelveticaNeueLTStd75Bold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+html, body { height: 100%; }
+
+body { margin: 0; padding: 0; color: #666; background-color: #FFF; background-image: url(/assets/images/top-header-bg.jpg); background-repeat: repeat-x; font-family: Arial, Helvetica, sans-serif; font-size: 100%; line-height: 1.4; }
+
+a img { border: none; }
+a { color: #005CAB; text-decoration: underline;  }
+a:hover, a:active, a:focus { color: #003366; }
+
+.container { width: 990px; margin: 0 auto; min-height: 100%; margin-bottom: -130px; position: relative; background-color: #FFF; background-image: url(/assets/images/content-bg.png); background-repeat: no-repeat; background-position: 0px 224px; }
+
+.header { background-image: url(/assets/images/header.jpg); background-repeat: no-repeat; height: 162px; }
+.header h1 { font-size: 138.5%; color: #FFF; margin: 0px 0px 0px 20px; padding: 0px; font-family: HelveticaNeueLTStd75Bold, Arial, Helvetica, sans-serif; font-weight: normal; float: left; width: 700px; display: block; }
+a.homelink { float: right; text-transform: uppercase; color: #FFF; text-decoration: none; font-family: Arial, Helvetica, sans-serif; font-size: 100%; display: block; margin-right: 20px; background-color: #015CAB; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; font-weight: bold; margin-top: 2px; padding: 3px 8px; }
+a.homelink:hover { background-color: #014078; }
+
+
+.sidebar1 { float: right; width: 229px; margin-bottom: 20px; padding-left: 20px; padding-bottom: 20px; 
+}
+.container .sidebarText { padding-bottom: 15px; border-bottom: 1px solid #CCC; }
+
+#contentWrapper .sidebar1 h2{ font-size: 138.5%; color: #005cab; font-family: HelveticaNeueLTStd75Bold, Arial, Helvetica, sans-serif; font-weight: normal; }
+
+#contentWrapper { padding-top: 20px; padding-right: 35px; padding-left: 35px; }
+#contentWrapper p { margin-bottom: 0.8em; }
+
+
+.content { float: left; padding-top: 0px; padding-bottom: 20px; width: 650px; border-right: 1px solid #ccc; padding-right: 20px; margin-bottom: 20px; }
+#contentWrapper h1 { font-size: 131%; color: #666; font-family: HelveticaNeueLTStd75Bold, Arial, Helvetica, sans-serif; margin: 0px 0px 0.7em; padding: 0px; }
+#contentWrapper h2 { font-size: 108%; margin-bottom: 0.7em; font-weight: bold; }
+
+
+#contentWrapper ul, #contentWrapper ol { padding: 8px 15px 8px 24px; }
+#contentWrapper ol li { list-style-type: decimal; }
+
+#contentWrapper li { list-style-type: disc; margin-bottom: 0.2em; }
+.container #contentWrapper ul li ul { padding-left: 16px; margin-top: 0.4em; padding-top: 0px; padding-bottom: 0px; }
+#contentWrapper ul li ul li { list-style-type: circle; }
+#contentWrapper h4 { color: #005cab; font-size: 131%; font-family: HelveticaNeueLTStd75Bold, Arial, Helvetica, sans-serif; }
+.bullet3Col { float: left; width: 27%; }
+.bullet2Col { float: left; width: 27%; }
+.bullet3Col li strong, .bullet2Col li strong { color: #005cab; margin-bottom: 0.4em; }
+.container #contentWrapper .productBox ul{ padding-top: 0px; padding-right: 0px; padding-bottom: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 15px; }
+.container #contentWrapper .productBox ul ul{ padding-top: 0px; padding-right: 0px; padding-bottom: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; }
+
+.bullet3Col li a { text-decoration: none; }
+.bullet3Col a:hover { text-decoration: underline; }
+
+.productBox { border: 1px solid #e1edf7; padding: 10px; -moz-border-radius: 4px; -webkit-border-radius:4px; border-radius:4px; margin-bottom: 20px;  }
+#contentWrapper .productBox h2{ padding: 5px 10px; background-color: #e1edf7; color: #005cab; font-size: 182%; font-family: HelveticaNeueLTStd75Bold, Arial, Helvetica, sans-serif; margin-bottom: 10px; }
+.productBox img { border: 7px solid #e1edf7; margin-right: 10px; float: left; }
+
+
+
+
+
+h3.quote { font-size: 138.5%; font-family: HelveticaNeueLTStd75Bold, Arial, Helvetica, sans-serif; color: #005cab; border-top: 1px solid #ccc; padding-top: 15px; margin-top: 20px; margin-bottom: 5px; clear: both; font-weight: normal; }
+.testimonialWrap { margin-bottom: 40px; margin-top: 15px; }
+.testimonialWrap h3.quote { border-width: 0px; border-style: none; margin: 0px 0px 10px; padding: 0px; }
+
+
+#contentWrapper .smallText { font-size: 100%; }
+
+
+
+
+/* ~~ The footer ~~ */
+
+
+.clearfooter { height: 130px; clear: both; }
+.footer { position: relative; height: 130px; margin-right: auto; margin-left: auto; background-image: url(/assets/images/footer-bg.png); background-repeat: repeat-x; }
+.footerContent { width: 920px; margin-right: auto; margin-left: auto; padding-top: 20px; text-transform: uppercase; color: #FFF; font-size: 93%; }
+.footer .footerContent .footerLinks li { float: left; display: inline; margin-right: 5px; }
+.footer .footerContent .footerLinks li a, .footer .footerContent .footerLinks li a:link, .footer .footerContent .footerLinks li a:active, .footer .footerContent .footerLinks li a:visited { color: #fff; border-right: 1px solid #FFF; padding-right: 5px; text-decoration: none; }
+.footer .footerContent .footerLinks li a:hover{ color: #fff; text-decoration: underline; }
+
+.footerSmall { margin-top: 15px; font-size: 85%; clear: left; width: 700px; }
+.footerContent a, .footerContent a:link, .footerContent a:active, .footerContent a:visited { color: #FFF; text-decoration: none; }
+
+
+
+/* ~~ generic classes ~~ */
+
+a.btn  { border: 1px solid #78a4cd; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; font-weight: bold; color:#005cab;  -moz-box-shadow: inset 0 1px 0 0 #eff4fa, 0 1px 2px 0 #b3b3b3; -webkit-box-shadow: inset 0 1px 0 0 #eff4fa, 0 1px 2px 0 #b3b3b3; text-shadow: 0 1px 1px #fff;  display: block; padding: 6px 10px; text-decoration: none; font-size: 138.5%; background-color: #d9e7f3; background-image: url(/assets/images/btn-up.jpg); background-repeat: repeat-x; text-decoration: none; background-position: center top; float: left; }
+
+a.btn:hover { text-decoration: none; color: #FFF; background-position: 0px -100px; -moz-box-shadow: inset 0 1px 0 0 #eff4fa, 0 1px 2px 0 #b3b3b3; -webkit-box-shadow: inset 0 1px 0 0 #eff4fa, 0 1px 2px 0 #b3b3b3; text-shadow: 0 1px 1px #005cab;  }
+
+
+.sidebar1 a.btn, .sidebar1 a.btn:link, .sidebar1 a.btn:active, .sidebar1 a.btn:visited
+{ width: 206px; margin-bottom: 20px; }
+
+.container .productBox a.btn 
+{ width: 586px; height: auto; float: left; }
+.container .productBox a.btn:hover 
+{ text-decoration: none; color: #FFF; background-position: 0px -100px; } */
+
+
+.iconEmail { float: left; height: 23px; background-image: url(/assets/images/icon-email.png); background-repeat: no-repeat; width: 31px; margin-right: 10px; }  
+.hrule { border-bottom: 1px solid #ccc; clear: both; }
+.imageBoxWrapper { width: 618px; padding: 15px; border: 1px solid #E1EDF7; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; margin-bottom: 20px; }
+.imageBullets { width: 240px; padding: 20px; }
+.imageBullets h3 { color: #005CAB; font-size: 131%; }
+
+.imageBox { width: 315px; text-align: center; display: block; float: left; }
+.imageBox img { }
+
+.logoBox { width: 290px; text-align: center; display: block; float: left; }
+.logoBox img { }
+
+
+.imageBox p { font-size: 93%; text-align: center; clear: both; }
+
+
+.fltrt {  float: right; margin-left: 8px; }
+.fltlft { float: left; margin-right: 8px; }
+.fltImagert { float: right; margin-left: 20px; margin-bottom: 20px; }
+.fltImagelft { float: left; margin: 15px 30px 20px 20px; }
+.clear { clear:both; height:0; font-size: 1px; line-height: 0px; }
+
+
+/************************/
+/* Dropdown menu styles */
+/************************/
+/* 
+	LEVEL ONE
+*/
+ul.dropdown                         { position: relative; font-size: 93%; z-index: 100; clear: both; background-repeat: no-repeat; background-image: url(../images/navbar-bg.png); padding-top: 18px; height: 43px; padding-right: 17px; padding-left: 25px;  }
+ul.dropdown li                      { font-weight: bold; float: left; zoom: 1; display: inline; padding-bottom: 5px }
+ul.dropdown a:hover, ul.dropdown li#currentsection a { color: #005cab; text-decoration:none }
+ul.dropdown a    { color: #666666; text-decoration:none }
+ul.dropdown li a                    { display: block; text-decoration: none; color: #666; text-transform: uppercase; padding-right: 13px; padding-left: 13px; font-family: HelveticaNeueLTStd83HvEx, Arial, Helvetica, sans-serif; text-shadow: 0 /*{a-bhover-shadow-x}*/ 1px /*{a-bhover-shadow-y}*/ 1px /*{a-bhover-shadow-radius}*/ #fff /*{a-bhover-shadow-color}*/; font-size: 12px; font-weight: normal; float: left; text-decoration:none }
+.sub_menu { background-color: #CCCCCC; border: 1px solid #CCCCCC; -webkit-box-shadow: #666 0px 2px 3px; -moz-box-shadow: #666 0px 2px 3px; box-shadow: #666 0px 2px 3px; margin: 0px; padding: 0px; }
+
+ul.dropdown ul.sub_menu li a { background-color: #ececec; border: 1px solid #cccccc; margin-left: 0px; margin-top: 0px; padding-bottom: 8px; clear: both; width: 220px;
+	padding: 6px 0px 6px 8px;
+	color: #666; }
+
+
+ul.dropdown li:last-child a         { border-right: none; } /* Doesn't work in IE */
+ul.dropdown li.hover,
+ul.dropdown li:hover                { position: relative; }
+ul.dropdown li.hover a              { color: #005cab; }
+
+
+/* LEVEL TWO */
+ul.dropdown ul 						{ width: 230px; visibility: hidden; position: absolute; top: 120%; left: 0; margin-top: -5px; }
+ul.dropdown ul li 					{ font-weight: normal; background: #cccccc; color: #333; float: none; padding-bottom: 0px }
+
+.container ul.dropdown ul.sub_menu li a:hover			{ background: #cecdcd !important; margin: 0px; padding-right: 0px; !important }
+									  
+/* IE 6 & 7 Needs Inline Block */
+#container ul.dropdown ul li a		{ border-right: none; width: 100%; display: inline-block; } 
+
+/* LEVEL THREE */
+ul.dropdown ul ul 					{ left: 100%; top: 0; }
+ul.dropdown li:hover > ul 			{ visibility: visible; }
+ul.dropdown ul.sub_menu li ul		{ margin-top: 10px !important}
+ul.dropdown ul.sub_menu li ul li a		{ background: #cecdcd !important; border: 2px solid #cecdcd; }
+.container ul.dropdown ul.sub_menu li ul li a:hover		{ background: #ababab !important;  }
+
+
+
+/* JQuery Cycle Slideshow styles */
+
+#contentWrapper .slideshowBg { width: 630px; font-size: 93%; line-height: 140%; background-image: url(/assets/images/slider-bg.png); background-repeat: no-repeat; height: 200px; float: left; padding: 10px; margin-bottom: 20px; }
+
+#contentWrapper.slideshow { display: block; position: relative; height: 200px; width: 630px; }
+
+#paging { clear: both; left: 20px; top: -40px; position: relative; z-index: 100; }
+#paging a { color: #accde9; border: 1px solid #accde9; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; background-color:#FFFFFF; padding: 3px 7px; text-decoration: none; margin-right: 10px; font-weight: bold;  }
+#paging a:hover, #paging .activeSlide  { color: #fff; border: 1px solid #accde9; background-color:#accde9; text-decoration: none; }
+
+
+#prev { position: relative; top: 60px; left: 0px; z-index: 10; height: 100px; width: 60px; overflow: auto; float: left; }
+
+#next { position: relative; top: 60px; left: 600px; z-index: 20; float: right; }
+#map { height: 350px; width: 100%; margin-bottom: 10px; }

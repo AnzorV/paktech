@@ -1,0 +1,293 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Image as ImageIcon, X } from 'lucide-react';
+
+// Import local assets
+import photo1 from '../assets/photo_1_2026-06-25_14-49-54.jpg';
+import photo2 from '../assets/photo_2_2026-06-25_14-49-54.jpg';
+import photo3 from '../assets/photo_3_2026-06-25_14-49-54.jpg';
+import photo4 from '../assets/photo_4_2026-06-25_14-49-54.jpg';
+import photo5 from '../assets/photo_5_2026-06-25_14-49-54.jpg';
+import photo6 from '../assets/photo_6_2026-06-25_14-49-54.jpg';
+import photo7 from '../assets/photo_7_2026-06-25_14-49-54.jpg';
+import photo8 from '../assets/photo_8_2026-06-25_14-49-54.jpg';
+import photo9 from '../assets/photo_9_2026-06-25_14-49-54.jpg';
+
+// Client logos
+import bpLogo from '../assets/BP_Helios_logo.svg.webp';
+import lubeRefLogo from '../assets/lube-ref-logo-svg-vector.svg';
+import woodGroupLogo from '../assets/wood_group.png';
+import repsolSinopecLogo from '../assets/Repsol-Sinopec-Logo-Photoroom.png';
+import provironLogo from '../assets/proviron-logo-square-Photoroom.png';
+
+// Real client logos
+const clientLogos = [
+  { 
+    name: "BP", 
+    logo: bpLogo 
+  },
+  { 
+    name: "Lube Ref", 
+    logo: lubeRefLogo 
+  },
+  { 
+    name: "Wood Group", 
+    logo: woodGroupLogo 
+  },
+  { 
+    name: "Repsol Sinopec", 
+    logo: repsolSinopecLogo 
+  },
+  { 
+    name: "Proviron", 
+    logo: provironLogo 
+  }
+];
+
+const slides = [
+    {
+      image: photo1,
+      title: "Control Systems",
+      href: "/control-systems/",
+      description: "Expert design and integration"
+    },
+    {
+      image: photo4,
+      title: "System Design",
+      href: "/control-systems/",
+      description: "Over 30 years of excellence"
+    },
+    {
+      image: photo3,
+      title: "CS300 Systems",
+      href: "/safety-systems/cs300/",
+      description: "Reliable safety solutions"
+    },
+    {
+      image: photo2,
+      title: "Safety Systems",
+      href: "/safety-systems/sc300e/",
+      description: "Protecting your operations"
+    }
+];
+
+const galleryPhotos = [
+  photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9
+];
+
+const Home: React.FC = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+  return (
+    <div className="space-y-12">
+      {/* Hero Slider */}
+      <section className="relative h-[250px] sm:h-[300px] md:h-[450px] overflow-hidden group shadow-2xl">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0"
+          >
+            <img 
+              src={slides[currentSlide].image} 
+              alt={slides[currentSlide].title}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6 md:p-12">
+              <div className="text-white max-w-xl">
+                <h2 className="text-2xl md:text-4xl font-bold mb-2">{slides[currentSlide].title}</h2>
+                <p className="hidden sm:block text-base md:text-lg text-white/90 mb-4">{slides[currentSlide].description}</p>
+                <Link 
+                  to={slides[currentSlide].href}
+                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 md:px-6 md:py-2 rounded-full font-semibold transition-colors text-sm md:text-base"
+                >
+                  Read More
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        <button 
+          onClick={prevSlide}
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity hidden sm:flex"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button 
+          onClick={nextSlide}
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity hidden sm:flex"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlide(idx)}
+              className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full transition-all ${currentSlide === idx ? "bg-white w-6 md:w-8" : "bg-white/40"}`}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* Intro Text */}
+      <section className="prose prose-blue max-w-none text-gray-600 leading-relaxed">
+        <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-6">
+          Paktech Limited has over 30 years experience in providing System Design, Integration and Commissioning Services.
+        </h1>
+        <p className="text-base md:text-lg">
+          We provide engineering and support services from complete Systems Build through to 24/7/365 Support. 
+          State-of-the-art technologies combined with Consultancy Services, Project Management, SCADA, PC and PLC industry-focused software solutions.
+        </p>
+      </section>
+
+      {/* Features Grid */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {[
+            {
+              title: "TMR Safety Systems",
+              href: "/safety-systems/",
+              items: ["CS300", "SC300E", "Tricon CX"]
+            },
+            {
+              title: "Control Systems",
+              href: "/control-systems/",
+              items: ["Siemens S7", "RA MicroLogix", "RA ControlLogix"]
+            },
+          {
+            title: "Power Supplies",
+            href: "/power-supply-services/",
+            items: ["Bespoke Build", "19\" Rack Variants"]
+          }
+        ].map((feat) => (
+          <div key={feat.title} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+            <h3 className="text-xl font-bold text-blue-600 mb-4 border-b pb-2">
+              <Link to={feat.href} className="hover:underline">{feat.title}</Link>
+            </h3>
+            <ul className="space-y-2">
+              {feat.items.map(item => (
+                <li key={item} className="flex items-center text-gray-600 text-sm">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mr-2" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+
+      {/* Clients */}
+      <section className="pt-8 border-t border-gray-100">
+        <h4 className="text-xl font-bold text-gray-900 mb-8 text-center uppercase tracking-widest">Our clients include...</h4>
+        <div className="flex flex-wrap justify-center gap-8 md:gap-12 items-center">
+          {clientLogos.map((client) => (
+            <div key={client.name} className="flex flex-col items-center group w-[100px] md:w-[140px]">
+              <div className="h-12 md:h-16 w-full flex items-center justify-center mb-2 hover:scale-110 transition-transform duration-300">
+                {client.logo ? (
+                  <img 
+                    src={client.logo} 
+                    alt={`${client.name} logo`} 
+                    className="max-h-full max-w-full object-contain filter drop-shadow-sm grayscale hover:grayscale-0 transition-all duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <span className="text-sm font-bold text-gray-400 group-hover:text-blue-600 transition-colors text-center px-2">
+                    {client.name}
+                  </span>
+                )}
+              </div>
+              {client.logo && (
+                <span className="text-xs font-semibold text-gray-400 uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity">
+                  {client.name}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Project Gallery Section */}
+      <section className="space-y-6 pt-8 border-t border-gray-100 flex flex-col items-center">
+        <div className="flex flex-col items-center space-y-2 text-blue-600 text-center">
+          <div className="bg-blue-600/10 p-3 rounded-full">
+            <ImageIcon className="w-8 h-8" />
+          </div>
+          <h2 className="text-2xl font-bold uppercase tracking-wider text-gray-900">Project Gallery</h2>
+          <div className="w-16 h-1 bg-blue-600 rounded-full" />
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full">
+          {galleryPhotos.map((photo, idx) => (
+            <motion.div 
+              key={idx}
+              whileHover={{ scale: 1.02 }}
+              onClick={() => setSelectedPhoto(photo)}
+              className="relative aspect-square rounded-xl overflow-hidden shadow-sm bg-gray-100 group cursor-pointer"
+            >
+              <img 
+                src={photo} 
+                alt={`Project Photo ${idx + 1}`}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span className="text-white font-bold text-sm bg-blue-600/80 px-3 py-1 rounded-full flex items-center gap-2">
+                  <ImageIcon className="w-4 h-4" /> Full View
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Photo Lightbox */}
+      <AnimatePresence>
+        {selectedPhoto && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedPhoto(null)}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-12 cursor-zoom-out"
+          >
+            <button 
+              className="absolute top-6 right-6 text-white hover:text-blue-400 transition-colors bg-white/10 p-2 rounded-full z-[60]"
+              onClick={() => setSelectedPhoto(null)}
+            >
+              <X className="w-8 h-8" />
+            </button>
+            <motion.img 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              src={selectedPhoto} 
+              alt="Full size project photo"
+              className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default Home;
