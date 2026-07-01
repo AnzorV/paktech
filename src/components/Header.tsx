@@ -13,7 +13,7 @@ const Header: React.FC = () => {
           <img 
             src={logo} 
             alt="Paktech Limited" 
-            className="w-full max-w-[180px] sm:max-w-[220px] md:max-w-[280px] h-auto object-contain drop-shadow-md" 
+            className="w-full max-w-[180px] sm:max-w-[220px] md:max-w-[280px] h-auto object-contain drop-shadow-md brightness-0 invert" 
           />
         </Link>
         
