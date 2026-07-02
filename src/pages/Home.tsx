@@ -109,12 +109,12 @@ const Home: React.FC = () => {
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6 md:p-12">
-              <div className="text-white max-w-xl">
+              <div className="text-white max-w-xl z-20">
                 <h2 className="text-2xl md:text-4xl font-bold mb-2">{slides[currentSlide].title}</h2>
                 <p className="hidden sm:block text-base md:text-lg text-white/90 mb-4">{slides[currentSlide].description}</p>
                 <Link 
                   to={slides[currentSlide].href}
-                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 md:px-6 md:py-2 rounded-full font-semibold transition-colors text-sm md:text-base"
+                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 md:px-6 md:py-2 rounded-full font-semibold transition-colors text-sm md:text-base cursor-pointer"
                 >
                   Read More
                 </Link>
@@ -179,7 +179,7 @@ const Home: React.FC = () => {
         ].map((feat) => (
           <div key={feat.title} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
             <h3 className="text-xl font-bold text-blue-600 mb-4 border-b pb-2">
-              <Link to={feat.href} className="hover:underline">{feat.title}</Link>
+              <Link to={feat.href} className="hover:underline cursor-pointer block py-2">{feat.title}</Link>
             </h3>
             <ul className="space-y-2">
               {feat.items.map(item => (

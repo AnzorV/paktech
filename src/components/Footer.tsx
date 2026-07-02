@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, ShieldCheck, MapPin } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-gray-900 text-gray-300 relative z-10">
       <div className="w-full px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Company Info */}
@@ -36,15 +35,11 @@ const Footer: React.FC = () => {
                 <li key={item.name}>
                   <Link 
                     to={item.path} 
-                    className="hover:text-white transition-colors block py-3 min-h-[48px] flex items-center group"
+                    className="hover:text-white transition-colors block py-3 min-h-[48px] flex items-center group cursor-pointer"
                   >
-                    <motion.span 
-                      whileHover={{ x: 5 }} 
-                      transition={{ type: "spring", stiffness: 300 }}
-                      className="inline-block"
-                    >
+                    <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
                       {item.name}
-                    </motion.span>
+                    </span>
                   </Link>
                 </li>
               ))}
@@ -58,29 +53,21 @@ const Footer: React.FC = () => {
               <li>
                 <Link 
                   to="/sitemap/" 
-                  className="hover:text-white transition-colors block py-3 min-h-[48px] flex items-center group"
+                  className="hover:text-white transition-colors block py-3 min-h-[48px] flex items-center group cursor-pointer"
                 >
-                  <motion.span 
-                    whileHover={{ x: 5 }} 
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="inline-block"
-                  >
+                  <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
                     Sitemap
-                  </motion.span>
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link 
                   to="/privacy-policy/" 
-                  className="hover:text-white transition-colors block py-3 min-h-[48px] flex items-center group"
+                  className="hover:text-white transition-colors block py-3 min-h-[48px] flex items-center group cursor-pointer"
                 >
-                  <motion.span 
-                    whileHover={{ x: 5 }} 
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="inline-block"
-                  >
+                  <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
                     Privacy Statement
-                  </motion.span>
+                  </span>
                 </Link>
               </li>
               <li className="text-xs text-gray-500 pt-2">
@@ -102,7 +89,7 @@ const Footer: React.FC = () => {
                 <Mail className="w-5 h-5 text-blue-500 flex-shrink-0" />
                 <Link 
                   to="/contact-us/" 
-                  className="hover:text-white transition-colors py-3 min-h-[48px] flex items-center"
+                  className="hover:text-white transition-colors py-3 min-h-[48px] flex items-center cursor-pointer"
                 >
                   Send an Enquiry
                 </Link>

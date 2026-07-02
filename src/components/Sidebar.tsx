@@ -92,7 +92,7 @@ const Sidebar: React.FC = () => {
         <p className="text-blue-100 text-xs mb-4">Our engineers are available 24/7/365 for your critical systems.</p>
         <Link 
           to="/contact-us/" 
-          className="block text-center bg-white text-blue-600 font-bold py-2 rounded-lg text-sm hover:bg-blue-50 transition-colors shadow-lg"
+          className="block text-center bg-white text-blue-600 font-bold py-2 rounded-lg text-sm hover:bg-blue-50 transition-colors shadow-lg cursor-pointer"
         >
           Contact Us
         </Link>

@@ -75,9 +75,9 @@ const Sitemap: React.FC = () => {
                 <li key={link.path}>
                   <Link 
                     to={link.path} 
-                    className="flex items-center group py-2 text-gray-600 hover:text-blue-600 transition-colors"
+                    className="flex items-center group py-3 text-gray-600 hover:text-blue-600 transition-colors min-h-[48px] cursor-pointer"
                   >
-                    <ChevronRight className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-blue-500" />
+                    <ChevronRight className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-blue-500 flex-shrink-0" />
                     <span className="font-medium">{link.name}</span>
                   </Link>
                 </li>
