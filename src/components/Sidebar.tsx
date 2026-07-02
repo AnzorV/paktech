@@ -49,7 +49,7 @@ const Sidebar: React.FC = () => {
               <p className="text-gray-600 text-sm leading-relaxed mb-4 italic">
                 {news[newsIdx]}
               </p>
-              <Link to="/paknet/" className="inline-flex items-center text-blue-600 font-semibold text-xs uppercase hover:underline">
+              <Link to="/paknet/" className="inline-flex items-center text-blue-600 font-semibold text-xs uppercase hover:underline py-2 min-h-[44px]">
                 Find out more <ChevronRight className="ml-1 w-3 h-3" />
               </Link>
             </motion.div>

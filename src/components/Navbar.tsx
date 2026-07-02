@@ -8,7 +8,15 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSubmenus, setActiveSubmenus] = useState<string[]>([]);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [isTouch, setIsTouch] = useState(false);
   const location = useLocation();
+
+  React.useEffect(() => {
+    const checkTouch = () => {
+      setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    };
+    checkTouch();
+  }, []);
 
   const toggleSubmenu = (title: string) => {
     setActiveSubmenus(prev => 
@@ -63,13 +71,19 @@ const Navbar: React.FC = () => {
                 <li
                   key={item.title}
                   className="relative"
-                  onMouseEnter={() => setHoveredItem(item.title)}
-                  onMouseLeave={() => setHoveredItem(null)}
+                  onMouseEnter={() => !isTouch && setHoveredItem(item.title)}
+                  onMouseLeave={() => !isTouch && setHoveredItem(null)}
                 >
                   <Link
                     to={item.href}
+                    onClick={(e) => {
+                      if (isTouch && item.submenu) {
+                        e.preventDefault();
+                        setHoveredItem(hoveredItem === item.title ? null : item.title);
+                      }
+                    }}
                     className={cn(
-                      "relative flex items-center text-white/90 hover:text-white px-4 py-5 text-sm font-bold uppercase tracking-wider transition-colors duration-200",
+                      "relative flex items-center text-white/90 hover:text-white px-4 py-6 text-sm font-bold uppercase tracking-wider transition-colors duration-200 min-h-[44px]",
                       isActive(item.href) && "text-white"
                     )}
                   >
@@ -137,11 +151,11 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <div className="md:hidden flex items-center justify-between w-full">
+          <div className="md:hidden flex items-center justify-between w-full h-16">
             <span className="text-white font-bold text-sm uppercase tracking-widest">Menu</span>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-white bg-white/10 hover:bg-white/20 p-2 rounded-lg transition-all duration-200 active:scale-95"
+              className="text-white bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-all duration-200 active:scale-95 min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
               <motion.div
                 initial={false}
@@ -182,13 +196,13 @@ const Navbar: React.FC = () => {
                     {item.submenu && (
                       <button
                         onClick={() => toggleSubmenu(item.title)}
-                        className="p-4 text-gray-400 hover:text-pakblue transition-colors"
+                        className="p-5 text-gray-400 hover:text-pakblue transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                       >
                         <motion.div
                           animate={{ rotate: activeSubmenus.includes(item.title) ? 180 : 0 }}
                           transition={{ duration: 0.2 }}
                         >
-                          <ChevronDown className="w-5 h-5" />
+                          <ChevronDown className="w-6 h-6" />
                         </motion.div>
                       </button>
                     )}
@@ -217,13 +231,13 @@ const Navbar: React.FC = () => {
                                 {sub.submenu && (
                                   <button
                                     onClick={() => toggleSubmenu(sub.title)}
-                                    className="p-2.5 text-gray-400"
+                                    className="p-4 text-gray-400 min-w-[44px] min-h-[44px] flex items-center justify-center"
                                   >
                                     <motion.div
                                       animate={{ rotate: activeSubmenus.includes(sub.title) ? 180 : 0 }}
                                       transition={{ duration: 0.2 }}
                                     >
-                                      <ChevronDown className="w-4 h-4" />
+                                      <ChevronDown className="w-5 h-5" />
                                     </motion.div>
                                   </button>
                                 )}

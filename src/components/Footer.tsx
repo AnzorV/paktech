@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
               ].map(item => (
                 <li key={item.name}>
                   <motion.div whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300 }}>
-                    <Link to={item.path} className="hover:text-white transition-colors">
+                    <Link to={item.path} className="hover:text-white transition-colors block py-2 min-h-[44px]">
                       {item.name}
                     </Link>
                   </motion.div>
@@ -50,14 +50,14 @@ const Footer: React.FC = () => {
             <ul className="space-y-2 text-sm">
               <li>
                 <motion.div whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300 }}>
-                  <Link to="/sitemap/" className="hover:text-white transition-colors">Sitemap</Link>
+                  <Link to="/sitemap/" className="hover:text-white transition-colors block py-2 min-h-[44px]">Sitemap</Link>
                 </motion.div>
               </li>
               <li>
                 <motion.div whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300 }}>
                   <Link 
                     to="/privacy-policy/" 
-                    className="inline-flex items-center hover:text-white transition-colors"
+                    className="inline-flex items-center hover:text-white transition-colors py-2 min-h-[44px]"
                   >
                     Privacy Statement
                   </Link>
@@ -80,7 +80,7 @@ const Footer: React.FC = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-blue-500" />
-                <Link to="/contact-us/" className="hover:text-white transition-colors">Send an Enquiry</Link>
+                <Link to="/contact-us/" className="hover:text-white transition-colors py-2 min-h-[44px] flex items-center">Send an Enquiry</Link>
               </div>
             </div>
           </div>

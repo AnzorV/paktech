@@ -125,15 +125,15 @@ const Home: React.FC = () => {
 
         <button 
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity hidden sm:flex"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md p-3 rounded-full text-white sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex min-w-[44px] min-h-[44px] items-center justify-center z-10"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
         </button>
         <button 
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity hidden sm:flex"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md p-3 rounded-full text-white sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex min-w-[44px] min-h-[44px] items-center justify-center z-10"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
         </button>
 
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
@@ -269,7 +269,7 @@ const Home: React.FC = () => {
             className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-12 cursor-zoom-out"
           >
             <button 
-              className="absolute top-6 right-6 text-white hover:text-blue-400 transition-colors bg-white/10 p-2 rounded-full z-[60]"
+              className="absolute top-4 right-4 text-white hover:text-blue-400 transition-colors bg-black/50 p-3 rounded-full z-[60] min-w-[44px] min-h-[44px] flex items-center justify-center border border-white/20"
               onClick={() => setSelectedPhoto(null)}
             >
               <X className="w-8 h-8" />
