@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { List, ChevronRight, Globe, Shield, Zap, Mail, Layout, Info } from 'lucide-react';
+import { ChevronRight, Globe, Shield, Zap, Mail, Layout, Info } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Sitemap: React.FC = () => {
