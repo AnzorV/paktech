@@ -97,10 +97,10 @@ const Home: React.FC = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
             className="absolute inset-0"
           >
             <img 
@@ -114,9 +114,10 @@ const Home: React.FC = () => {
                 <p className="hidden sm:block text-base md:text-lg text-white/90 mb-4">{slides[currentSlide].description}</p>
                 <Link 
                   to={slides[currentSlide].href}
-                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 md:px-6 md:py-2 rounded-full font-semibold transition-colors text-sm md:text-base cursor-pointer"
+                  className="relative inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 md:px-6 md:py-2 rounded-full font-semibold transition-all text-sm md:text-base cursor-pointer overflow-hidden group/btn hover:scale-105 active:scale-95"
                 >
-                  Read More
+                  <span className="relative z-10">Read More</span>
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-all duration-700 ease-in-out opacity-0 group-hover/btn:opacity-100" />
                 </Link>
               </div>
             </div>
@@ -125,13 +126,13 @@ const Home: React.FC = () => {
 
         <button 
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md p-3 rounded-full text-white sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex min-w-[44px] min-h-[44px] items-center justify-center z-10"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md p-3 rounded-full text-white sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-500 hover:scale-110 active:scale-90 flex min-w-[44px] min-h-[44px] items-center justify-center z-10"
         >
           <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
         </button>
         <button 
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md p-3 rounded-full text-white sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex min-w-[44px] min-h-[44px] items-center justify-center z-10"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-md p-3 rounded-full text-white sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-500 hover:scale-110 active:scale-90 flex min-w-[44px] min-h-[44px] items-center justify-center z-10"
         >
           <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
         </button>
@@ -141,7 +142,7 @@ const Home: React.FC = () => {
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
-              className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full transition-all ${currentSlide === idx ? "bg-white w-6 md:w-8" : "bg-white/40"}`}
+              className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full transition-all hover:scale-125 active:scale-90 ${currentSlide === idx ? "bg-white w-6 md:w-8" : "bg-white/40 hover:bg-white/60"}`}
             />
           ))}
         </div>

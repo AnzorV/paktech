@@ -44,6 +44,7 @@ const Sidebar: React.FC = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
               className="absolute inset-0"
             >
               <p className="text-gray-600 text-sm leading-relaxed mb-4 italic">
@@ -70,6 +71,7 @@ const Sidebar: React.FC = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.05 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
               className="absolute inset-0 bg-white p-6 rounded-xl border border-gray-100 shadow-sm"
             >
               <p className="text-gray-700 text-sm leading-relaxed mb-4 italic">

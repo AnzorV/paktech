@@ -60,7 +60,7 @@ const ContactUs: React.FC = () => {
         subject: '',
         message: ''
       });
-    } catch (error) {
+    } catch {
       setStatus('error');
     } finally {
       setTimeout(() => setStatus('idle'), 5000);
@@ -181,8 +181,9 @@ const ContactUs: React.FC = () => {
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className="w-full bg-pakblue hover:bg-blue-700 disabled:bg-blue-300 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl active:scale-[0.98] flex items-center justify-center gap-3 text-lg"
+                className="w-full bg-pakblue hover:bg-blue-700 disabled:bg-blue-300 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl active:scale-[0.98] flex items-center justify-center gap-3 text-lg overflow-hidden group/btn relative"
               >
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-all duration-700 ease-in-out opacity-0 group-hover/btn:opacity-100" />
                 {status === 'sending' ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
