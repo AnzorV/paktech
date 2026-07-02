@@ -34,11 +34,18 @@ const Footer: React.FC = () => {
                 { name: 'Contact Us', path: '/contact-us/' }
               ].map(item => (
                 <li key={item.name}>
-                  <motion.div whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300 }}>
-                    <Link to={item.path} className="hover:text-white transition-colors block py-2 min-h-[44px]">
+                  <Link 
+                    to={item.path} 
+                    className="hover:text-white transition-colors block py-3 min-h-[48px] flex items-center group"
+                  >
+                    <motion.span 
+                      whileHover={{ x: 5 }} 
+                      transition={{ type: "spring", stiffness: 300 }}
+                      className="inline-block"
+                    >
                       {item.name}
-                    </Link>
-                  </motion.div>
+                    </motion.span>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -49,19 +56,32 @@ const Footer: React.FC = () => {
             <h3 className="text-white text-lg font-bold">Legal</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <motion.div whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300 }}>
-                  <Link to="/sitemap/" className="hover:text-white transition-colors block py-2 min-h-[44px]">Sitemap</Link>
-                </motion.div>
+                <Link 
+                  to="/sitemap/" 
+                  className="hover:text-white transition-colors block py-3 min-h-[48px] flex items-center group"
+                >
+                  <motion.span 
+                    whileHover={{ x: 5 }} 
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="inline-block"
+                  >
+                    Sitemap
+                  </motion.span>
+                </Link>
               </li>
               <li>
-                <motion.div whileHover={{ x: 5 }} transition={{ type: "spring", stiffness: 300 }}>
-                  <Link 
-                    to="/privacy-policy/" 
-                    className="inline-flex items-center hover:text-white transition-colors py-2 min-h-[44px]"
+                <Link 
+                  to="/privacy-policy/" 
+                  className="hover:text-white transition-colors block py-3 min-h-[48px] flex items-center group"
+                >
+                  <motion.span 
+                    whileHover={{ x: 5 }} 
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="inline-block"
                   >
                     Privacy Statement
-                  </Link>
-                </motion.div>
+                  </motion.span>
+                </Link>
               </li>
               <li className="text-xs text-gray-500 pt-2">
                 Co. Reg: 3325624<br />
@@ -79,8 +99,13 @@ const Footer: React.FC = () => {
                 <span>Available for international projects and on-site commissioning.</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-blue-500" />
-                <Link to="/contact-us/" className="hover:text-white transition-colors py-2 min-h-[44px] flex items-center">Send an Enquiry</Link>
+                <Mail className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                <Link 
+                  to="/contact-us/" 
+                  className="hover:text-white transition-colors py-3 min-h-[48px] flex items-center"
+                >
+                  Send an Enquiry
+                </Link>
               </div>
             </div>
           </div>
