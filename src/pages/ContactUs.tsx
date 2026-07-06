@@ -75,29 +75,29 @@ const ContactUs: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-8 sm:space-y-12">
-      <section className="relative overflow-hidden rounded-[1.5rem] sm:rounded-[2.5rem] bg-pakblue p-6 sm:p-8 md:p-12 text-white shadow-2xl">
+    <div className="space-y-12">
+      <section className="relative overflow-hidden rounded-[2.5rem] bg-pakblue p-8 md:p-12 text-white shadow-2xl">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none"></div>
         <div className="relative z-10">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 sm:mb-4 tracking-tight">How can we help you?</h1>
-          <p className="text-base sm:text-lg md:text-xl text-blue-100 max-w-2xl font-medium">
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight">How can we help you?</h1>
+          <p className="text-lg md:text-xl text-blue-100 max-w-2xl font-medium">
             Get in touch with Paktech Limited for enquiries regarding our services, system design, or support requirements.
           </p>
         </div>
         <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Contact Form */}
-        <section className="lg:col-span-2 bg-white p-5 sm:p-10 rounded-[1.5rem] sm:rounded-[2rem] border border-gray-100 shadow-2xl relative">
-          <div className="flex items-center gap-3 mb-6 sm:mb-8">
-            <div className="bg-blue-100 p-2 sm:p-2.5 rounded-xl">
-              <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 text-pakblue" />
+        <section className="lg:col-span-2 bg-white p-6 md:p-10 rounded-[2rem] border border-gray-100 shadow-2xl relative">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="bg-blue-100 p-2.5 rounded-xl">
+              <MessageSquare className="w-6 h-6 text-pakblue" />
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Send an Enquiry</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Send an Enquiry</h2>
           </div>
           
-          <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6 bg-white p-5 sm:p-10 rounded-[1.5rem] sm:rounded-[2.5rem] border border-gray-100 shadow-2xl relative overflow-hidden group/form">
+          <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 sm:p-10 rounded-[2.5rem] border border-gray-100 shadow-2xl relative overflow-hidden group/form">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pakblue via-blue-400 to-pakblue opacity-0 group-hover/form:opacity-100 transition-opacity duration-700"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
@@ -222,48 +222,47 @@ const ContactUs: React.FC = () => {
         </section>
 
         {/* Contact Info Cards */}
-        <section className="lg:col-span-1 space-y-4 sm:space-y-6">
-          <div className="bg-white p-5 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border border-gray-100 shadow-xl space-y-5 sm:space-y-6">
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900 border-b border-gray-50 pb-3 sm:pb-4">Contact Details</h3>
+        <section className="lg:col-span-1 space-y-6">
+          <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-xl space-y-6">
+            <h3 className="text-xl font-bold text-gray-900 border-b border-gray-50 pb-4">Contact Details</h3>
             
-            <div className="space-y-5 sm:space-y-6">
-              <div className="flex items-start gap-3 sm:gap-4 group/item">
-                <div className="bg-blue-50 p-2.5 sm:p-3 rounded-xl text-pakblue group-hover/item:bg-pakblue group-hover/item:text-white transition-all duration-300">
-                  <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
+            <div className="space-y-6">
+              <div className="flex items-start gap-4 group/item">
+                <div className="bg-blue-50 p-3 rounded-xl text-pakblue group-hover/item:bg-pakblue group-hover/item:text-white transition-all duration-300">
+                  <Mail className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Email Us</p>
-                  <a href="mailto:info@paktech.net" className="text-pakblue hover:text-blue-700 font-bold text-base sm:text-lg transition-colors">info@paktech.net</a>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Email Us</p>
+                  <a href="mailto:info@paktech.net" className="text-pakblue hover:text-blue-700 font-bold text-lg transition-colors">info@paktech.net</a>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 sm:gap-4 group/item">
-                <div className="bg-blue-50 p-2.5 sm:p-3 rounded-xl text-pakblue group-hover/item:bg-pakblue group-hover/item:text-white transition-all duration-300">
-                  <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
+              <div className="flex items-start gap-4 group/item">
+                <div className="bg-blue-50 p-3 rounded-xl text-pakblue group-hover/item:bg-pakblue group-hover/item:text-white transition-all duration-300">
+                  <Phone className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Call Us</p>
-                  <p className="text-gray-900 font-bold text-base sm:text-lg">+44 (0) 151 327 1221</p>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Call Us</p>
+                  <p className="text-gray-900 font-bold text-lg">+44 (0) 1625 434111</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 sm:gap-4 group/item">
-                <div className="bg-blue-50 p-2.5 sm:p-3 rounded-xl text-pakblue group-hover/item:bg-pakblue group-hover/item:text-white transition-all duration-300">
-                  <MapPin className="w-5 h-5 sm:w-6 sm:h-6" />
+              <div className="flex items-start gap-4 group/item">
+                <div className="bg-blue-50 p-3 rounded-xl text-pakblue group-hover/item:bg-pakblue group-hover/item:text-white transition-all duration-300">
+                  <MapPin className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Our Office</p>
-                  <p className="text-sm sm:text-base text-gray-700 font-medium leading-relaxed">
-                    The Elms, Low Hill,<br />
-                    Eastham, Wirral,<br />
-                    CH62 8DA, UK
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Our Office</p>
+                  <p className="text-gray-700 font-medium leading-relaxed">
+                    1st Floor, 10-12 Jordan Gate,<br />
+                    Macclesfield, SK10 1EE, UK
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 sm:gap-4 group/item">
-                <div className="bg-blue-50 p-2.5 sm:p-3 rounded-xl text-pakblue group-hover/item:bg-pakblue group-hover/item:text-white transition-all duration-300">
-                  <Clock className="w-5 h-5 sm:w-6 sm:h-6" />
+              <div className="flex items-start gap-4 group/item">
+                <div className="bg-blue-50 p-3 rounded-xl text-pakblue group-hover/item:bg-pakblue group-hover/item:text-white transition-all duration-300">
+                  <Clock className="w-6 h-6" />
                 </div>
                 <div>
                   <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Support hours</p>
@@ -288,7 +287,7 @@ const ContactUs: React.FC = () => {
       </div>
 
       {/* Full Width Map Section */}
-      <section className="rounded-[1.5rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white h-[300px] sm:h-[500px] relative group">
+      <section className="rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white h-[500px] relative group">
         <iframe 
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2382.471926610058!2d-2.1294860228308475!3d53.33475197997576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487a36c64993132f%3A0xc6c7936a9e88a0b9!2sPaktech%20Limited!5e0!3m2!1sen!2suk!4v1720261200000!5m2!1sen!2suk" 
           width="100%" 
@@ -305,26 +304,26 @@ const ContactUs: React.FC = () => {
           <img 
             src={customPin} 
             alt="Paktech Location" 
-            className="w-10 h-10 sm:w-16 sm:h-16 drop-shadow-[0_15px_15px_rgba(0,0,0,0.5)] animate-bounce-slow image-render-auto" 
+            className="w-16 h-16 drop-shadow-[0_15px_15px_rgba(0,0,0,0.5)] animate-bounce-slow image-render-auto" 
           />
-          <div className="w-2 sm:w-3 h-1 sm:h-2 bg-black/25 rounded-full blur-[3px] -mt-1 sm:-mt-2 scale-x-150"></div>
+          <div className="w-3 h-2 bg-black/25 rounded-full blur-[3px] -mt-2 scale-x-150"></div>
         </div>
 
-        <div className="absolute top-4 sm:top-6 right-4 sm:right-6">
-          <div className="bg-white/95 backdrop-blur-md px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl shadow-xl border border-white/50 flex items-center gap-2 sm:gap-3">
-            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-600 rounded-full animate-pulse shadow-[0_0_10px_rgba(220,38,38,0.5)]"></div>
-            <span className="text-[10px] sm:text-xs font-bold text-gray-900 uppercase tracking-widest">Office Location</span>
+        <div className="absolute top-6 right-6">
+          <div className="bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl shadow-xl border border-white/50 flex items-center gap-3">
+            <div className="w-3 h-3 bg-red-600 rounded-full animate-pulse shadow-[0_0_10px_rgba(220,38,38,0.5)]"></div>
+            <span className="text-xs font-bold text-gray-900 uppercase tracking-widest">Office Location Confirmed</span>
           </div>
         </div>
-        <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6">
-          <div className="bg-white/90 backdrop-blur-md px-4 sm:px-6 py-3 sm:py-4 rounded-[1rem] sm:rounded-[1.5rem] shadow-2xl border border-white/50">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="bg-pakblue p-2 sm:p-3 rounded-xl shadow-lg shadow-blue-200">
-                <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        <div className="absolute bottom-6 left-6">
+          <div className="bg-white/90 backdrop-blur-md px-6 py-4 rounded-[1.5rem] shadow-2xl border border-white/50">
+            <div className="flex items-center gap-4">
+              <div className="bg-pakblue p-3 rounded-xl shadow-lg shadow-blue-200">
+                <MapPin className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h4 className="font-bold text-gray-900 text-base sm:text-lg leading-none mb-0.5 sm:mb-1">Paktech Limited</h4>
-                <p className="text-[10px] sm:text-sm text-gray-500 font-medium">United Kingdom</p>
+                <h4 className="font-bold text-gray-900 text-lg leading-none mb-1">Paktech Limited</h4>
+                <p className="text-sm text-gray-500 font-medium">Macclesfield, United Kingdom</p>
               </div>
             </div>
           </div>
