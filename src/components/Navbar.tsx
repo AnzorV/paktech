@@ -12,6 +12,10 @@ const Navbar: React.FC = () => {
   const location = useLocation();
 
   React.useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
+
+  React.useEffect(() => {
     const checkTouch = () => {
       setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
     };
@@ -30,24 +34,24 @@ const Navbar: React.FC = () => {
     { title: 'Home', href: '/' },
     {
       title: 'Safety & Control Systems',
-      href: '/safety-systems/',
+      href: '/safety-systems',
       submenu: [
         {
           title: 'Safety Systems',
-          href: '/safety-systems/',
+          href: '/safety-systems',
           submenu: [
-            { title: 'CS300', href: '/safety-systems/cs300/' },
-            { title: 'SC300e', href: '/safety-systems/sc300e/' },
-            { title: 'Tricon CX', href: '/safety-systems/tricon-cx/' },
+            { title: 'CS300', href: '/safety-systems/cs300' },
+            { title: 'SC300e', href: '/safety-systems/sc300e' },
+            { title: 'Tricon CX', href: '/safety-systems/tricon-cx' },
           ]
         },
-        { title: 'Control Systems', href: '/control-systems/' },
+        { title: 'Control Systems', href: '/control-systems' },
       ]
     },
-    { title: 'SCADA', href: '/scada/' },
-    { title: 'Power Supplies', href: '/power-supply-services/' },
-    { title: 'PakNet', href: '/paknet/' },
-    { title: 'Contact us', href: '/contact-us/' },
+    { title: 'SCADA', href: '/scada' },
+    { title: 'Power Supplies', href: '/power-supply-services' },
+    { title: 'PakNet', href: '/paknet' },
+    { title: 'Contact us', href: '/contact-us' },
   ];
 
   const isActive = (item: any) => {
@@ -61,11 +65,11 @@ const Navbar: React.FC = () => {
     // Specific logic for Safety & Control Systems which spans multiple top-level-ish paths
     if (item.title === 'Safety & Control Systems') {
       const relatedPaths = [
-        '/safety-systems/',
-        '/control-systems/',
-        '/safety-systems/cs300/',
-        '/safety-systems/sc300e/',
-        '/safety-systems/tricon-cx/'
+        '/safety-systems',
+        '/control-systems',
+        '/safety-systems/cs300',
+        '/safety-systems/sc300e',
+        '/safety-systems/tricon-cx'
       ];
       return relatedPaths.some(p => location.pathname === p);
     }

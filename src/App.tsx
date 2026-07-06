@@ -34,17 +34,17 @@ function App() {
             <div className="flex-1 p-4 sm:p-6 md:p-10">
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/safety-systems/" element={<SafetySystems />} />
-                <Route path="/safety-systems/cs300/" element={<SafetySystems />} />
-                <Route path="/safety-systems/sc300e/" element={<SafetySystems />} />
-                <Route path="/safety-systems/tricon-cx/" element={<SafetySystems />} />
-                <Route path="/control-systems/" element={<SafetySystems />} />
-                <Route path="/scada/" element={<SCADA />} />
-                <Route path="/power-supply-services/" element={<PowerSupplies />} />
-                <Route path="/paknet/" element={<PakNet />} />
-                <Route path="/contact-us/" element={<ContactUs />} />
-                <Route path="/privacy-policy/" element={<PrivacyPolicy />} />
-                <Route path="/sitemap/" element={<Sitemap />} />
+                <Route path="/safety-systems" element={<SafetySystems />} />
+                <Route path="/safety-systems/cs300" element={<SafetySystems />} />
+                <Route path="/safety-systems/sc300e" element={<SafetySystems />} />
+                <Route path="/safety-systems/tricon-cx" element={<SafetySystems />} />
+                <Route path="/control-systems" element={<SafetySystems />} />
+                <Route path="/scada" element={<SCADA />} />
+                <Route path="/power-supply-services" element={<PowerSupplies />} />
+                <Route path="/paknet" element={<PakNet />} />
+                <Route path="/contact-us" element={<ContactUs />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/sitemap" element={<Sitemap />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>

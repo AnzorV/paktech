@@ -20,20 +20,14 @@ const ContactUs: React.FC = () => {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [widgetId, setWidgetId] = useState<string | null>(null);
 
   useEffect(() => {
-    const savedData = sessionStorage.getItem('contactFormData');
-    if (savedData) {
-      try {
-        setFormData(JSON.parse(savedData));
-      } catch (err) {
-        console.error('Failed to parse saved form data:', err);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    sessionStorage.setItem('contactFormData', JSON.stringify(formData));
+    let saveTimeout: number;
+    saveTimeout = window.setTimeout(() => {
+      sessionStorage.setItem('contactFormData', JSON.stringify(formData));
+    }, 500);
+    return () => window.clearTimeout(saveTimeout);
   }, [formData]);
 
   useEffect(() => {
@@ -95,6 +89,8 @@ const ContactUs: React.FC = () => {
     if (status === 'sending') return;
     if (!validate()) return;
     
+    // Server-side verification is recommended for production.
+    // For this static site, we rely on client-side check + secret key in EmailJS if applicable.
     if (!turnstileToken) {
       setErrors(prev => ({ ...prev, turnstile: 'Please complete the security check' }));
       return;
@@ -112,9 +108,6 @@ const ContactUs: React.FC = () => {
       setStatus('error');
       return;
     }
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     try {
       const templateParams = {
@@ -138,18 +131,19 @@ const ContactUs: React.FC = () => {
         })
       };
 
-      // Send primary notification email
+      // Send primary notification email with 15s timeout
       await Promise.race([
         emailjs.send(serviceId, templateId, templateParams, publicKey),
         new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), 15000))
       ]);
       
       // Send separate auto-reply if a dedicated template ID is provided
+      // Handle separately so it doesn't break the main success state
       if (replyTemplateId) {
-        await emailjs.send(serviceId, replyTemplateId, templateParams, publicKey);
+        emailjs.send(serviceId, replyTemplateId, templateParams, publicKey)
+          .catch(err => console.warn('Auto-reply failed to send:', err));
       }
       
-      clearTimeout(timeoutId);
       setStatus('success');
       setFormData({
         name: '',
@@ -161,13 +155,12 @@ const ContactUs: React.FC = () => {
       setErrors({});
       sessionStorage.removeItem('contactFormData');
       // Reset Turnstile
-      if (window.turnstile) {
-        window.turnstile.reset();
+      if (window.turnstile && widgetId) {
+        window.turnstile.reset(widgetId);
         setTurnstileToken(null);
       }
     } catch (err) {
       console.error('Failed to send email:', err);
-      clearTimeout(timeoutId);
       setStatus('error');
     }
   };
@@ -183,7 +176,7 @@ const ContactUs: React.FC = () => {
       console.log('Attempting to render Turnstile...');
       if (window.turnstile && document.getElementById('turnstile-container')) {
         try {
-          window.turnstile.render('#turnstile-container', {
+          const id = window.turnstile.render('#turnstile-container', {
             sitekey: siteKey,
             callback: (token: string) => {
               setTurnstileToken(token);
@@ -197,6 +190,7 @@ const ContactUs: React.FC = () => {
               console.error('Turnstile error:', err);
             }
           });
+          setWidgetId(id);
           console.log('Turnstile rendered successfully');
         } catch (e) {
           console.error('Turnstile render failed:', e);
@@ -220,6 +214,23 @@ const ContactUs: React.FC = () => {
         }
       }, 500);
       return () => clearInterval(interval);
+    }
+
+    return () => {
+      if (widgetId && window.turnstile) {
+        window.turnstile.remove(widgetId);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const savedData = sessionStorage.getItem('contactFormData');
+    if (savedData) {
+      try {
+        setFormData(JSON.parse(savedData));
+      } catch (err) {
+        console.error('Failed to parse saved form data:', err);
+      }
     }
   }, []);
 
@@ -328,7 +339,12 @@ const ContactUs: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="message" className="text-sm font-bold text-gray-700 ml-1">Your Message</label>
+              <div className="flex justify-between items-center ml-1">
+                <label htmlFor="message" className="text-sm font-bold text-gray-700">Your Message</label>
+                <span className={`text-[10px] font-bold ${formData.message.length > 2000 ? 'text-red-500' : 'text-gray-400'}`}>
+                  {formData.message.length} / 2000
+                </span>
+              </div>
               <textarea
                 id="message"
                 required
