@@ -14,6 +14,17 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="bg-gray-900 text-gray-300 relative z-10">
+      {/* Scroll to Top Button */}
+      <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-20">
+        <button
+          onClick={scrollToTop}
+          className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+          aria-label="Scroll to top"
+        >
+          <ChevronUp className="w-6 h-6" />
+        </button>
+      </div>
+
       <div className="w-full px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Company Info */}
@@ -105,15 +116,8 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-gray-500 order-2 md:order-1">© {currentYear} Paktech Limited. All rights reserved.</p>
-          <button 
-            onClick={scrollToTop}
-            className="order-1 md:order-2 flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all duration-300 group shadow-lg"
-          >
-            <span className="text-xs font-medium uppercase tracking-wider">Back to Top</span>
-            <ChevronUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform duration-300" />
-          </button>
+        <div className="mt-12 pt-8 border-t border-gray-800 text-center text-xs text-gray-500">
+          <p>© {currentYear} Paktech Limited. All rights reserved.</p>
         </div>
       </div>
     </footer>

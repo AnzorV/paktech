@@ -15,14 +15,14 @@ const PrivacyPolicy: React.FC = () => {
       </section>
 
       <div className="space-y-6 text-gray-700">
-        <section className="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm">
+        <section className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
           <h2 className="text-xl font-bold text-gray-900 mb-3">1. Information We Collect</h2>
           <p>
             We may collect and process information that you provide by filling in forms on our site, such as your name, email address, and phone number when you enquire about our services.
           </p>
         </section>
 
-        <section className="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm">
+        <section className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
           <h2 className="text-xl font-bold text-gray-900 mb-3">2. How We Use Your Information</h2>
           <p>
             We use your information to:
@@ -34,14 +34,14 @@ const PrivacyPolicy: React.FC = () => {
           </ul>
         </section>
 
-        <section className="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm">
+        <section className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
           <h2 className="text-xl font-bold text-gray-900 mb-3">3. Data Security</h2>
           <p>
             We are committed to ensuring that your information is secure. In order to prevent unauthorised access or disclosure, we have put in place suitable physical, electronic and managerial procedures to safeguard and secure the information we collect online.
           </p>
         </section>
 
-        <section className="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm">
+        <section className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
           <h2 className="text-xl font-bold text-gray-900 mb-3">4. Contact Us</h2>
           <p>
             If you have any questions about this privacy notice or our treatment of your personal data, please contact us at info@paktech.net.

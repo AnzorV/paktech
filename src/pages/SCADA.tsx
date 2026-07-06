@@ -10,7 +10,7 @@ const SCADA: React.FC = () => {
         </p>
       </section>
 
-      <div className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm">
+      <div className="bg-white p-8 rounded-xl border border-gray-100 shadow-sm">
         <h2 className="text-2xl font-bold text-blue-600 mb-4">Our Expertise</h2>
         <p className="text-gray-700 leading-relaxed mb-6">
           Paktech Limited provides comprehensive SCADA solutions tailored to your specific industry needs. From simple HMI replacements to complex, distributed SCADA architectures, we have the skills and experience to deliver robust and reliable systems.

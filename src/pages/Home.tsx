@@ -93,7 +93,7 @@ const Home: React.FC = () => {
   return (
     <div className="space-y-12">
       {/* Hero Slider */}
-      <section className="relative h-[300px] md:h-[500px] overflow-hidden group shadow-2xl rounded-[2rem] will-change-transform">
+      <section className="relative h-[250px] sm:h-[300px] md:h-[450px] overflow-hidden group shadow-2xl">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -106,41 +106,19 @@ const Home: React.FC = () => {
             <img 
               src={slides[currentSlide].image} 
               alt={slides[currentSlide].title}
-              className="w-full h-full object-cover will-change-transform"
-              loading={currentSlide === 0 ? "eager" : "lazy"}
+              className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6 md:p-12 z-20">
-              <div className="text-white max-w-xl">
-                <motion.h2 
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                  className="text-3xl md:text-5xl font-extrabold mb-3 tracking-tight drop-shadow-lg"
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6 md:p-12">
+              <div className="text-white max-w-xl z-20">
+                <h2 className="text-2xl md:text-4xl font-bold mb-2">{slides[currentSlide].title}</h2>
+                <p className="hidden sm:block text-base md:text-lg text-white/90 mb-4">{slides[currentSlide].description}</p>
+                <Link 
+                  to={slides[currentSlide].href}
+                  className="relative inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 md:px-6 md:py-2 rounded-full font-semibold transition-all text-sm md:text-base cursor-pointer overflow-hidden group/btn hover:scale-105 active:scale-95"
                 >
-                  {slides[currentSlide].title}
-                </motion.h2>
-                <motion.p 
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="hidden sm:block text-base md:text-xl text-white/95 mb-6 font-medium drop-shadow-md"
-                >
-                  {slides[currentSlide].description}
-                </motion.p>
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <Link 
-                    to={slides[currentSlide].href}
-                    className="relative inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-bold transition-all text-sm md:text-base cursor-pointer overflow-hidden group/btn hover:scale-105 active:scale-95 shadow-xl shadow-blue-900/20"
-                  >
-                    <span className="relative z-10">Explore Services</span>
-                    <ChevronRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
-                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-all duration-1000 ease-in-out" />
-                  </Link>
-                </motion.div>
+                  <span className="relative z-10">Read More</span>
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-all duration-700 ease-in-out opacity-0 group-hover/btn:opacity-100" />
+                </Link>
               </div>
             </div>
           </motion.div>
@@ -200,7 +178,7 @@ const Home: React.FC = () => {
             items: ["Bespoke Build", "19\" Rack Variants"]
           }
         ].map((feat) => (
-          <div key={feat.title} className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+          <div key={feat.title} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
             <h3 className="text-xl font-bold text-blue-600 mb-4 border-b pb-2">
               <Link to={feat.href} className="hover:underline cursor-pointer block py-2">{feat.title}</Link>
             </h3>
@@ -228,7 +206,6 @@ const Home: React.FC = () => {
                     src={client.logo} 
                     alt={`${client.name} logo`} 
                     className="max-h-full max-w-full object-contain filter drop-shadow-sm grayscale hover:grayscale-0 transition-all duration-300"
-                    loading="lazy"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
@@ -265,13 +242,12 @@ const Home: React.FC = () => {
               key={idx}
               whileHover={{ scale: 1.02 }}
               onClick={() => setSelectedPhoto(photo)}
-              className="relative aspect-square rounded-[1.5rem] overflow-hidden shadow-sm bg-gray-100 group cursor-pointer"
+              className="relative aspect-square rounded-xl overflow-hidden shadow-sm bg-gray-100 group cursor-pointer"
             >
               <img 
                 src={photo} 
                 alt={`Project Photo ${idx + 1}`}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform"
-                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <span className="text-white font-bold text-sm bg-blue-600/80 px-3 py-1 rounded-full flex items-center gap-2">
@@ -303,10 +279,9 @@ const Home: React.FC = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
               src={selectedPhoto} 
               alt="Full size project photo"
-              className="max-w-full max-h-full object-contain rounded-[2rem] shadow-2xl will-change-transform"
+              className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             />
           </motion.div>

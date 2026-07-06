@@ -12,13 +12,13 @@ const PowerSupplies: React.FC = () => {
 
       <div className="flex flex-col md:flex-row gap-8 items-center">
         <div className="flex-1 space-y-6">
-          <div className="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm">
+          <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
             <h2 className="text-2xl font-bold text-blue-600 mb-2">Bespoke Build</h2>
             <p className="text-gray-600">
               Custom-engineered power supply units designed to meet specific voltage, current, and environmental requirements.
             </p>
           </div>
-          <div className="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm">
+          <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
             <h2 className="text-2xl font-bold text-blue-600 mb-2">19" Rack Variants</h2>
             <p className="text-gray-600">
               Standardized rack-mount power solutions for easy integration into existing control cabinets and server rooms.
@@ -29,7 +29,7 @@ const PowerSupplies: React.FC = () => {
           <img 
             src="https://www.paktech.net/assets/images/slide3.jpg" 
             alt="Power Supplies" 
-            className="rounded-[2rem] shadow-xl w-full h-auto"
+            className="rounded-2xl shadow-xl w-full h-auto"
           />
         </div>
       </div>
