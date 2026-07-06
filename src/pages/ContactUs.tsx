@@ -174,18 +174,52 @@ const ContactUs: React.FC = () => {
 
   useEffect(() => {
     const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
-    if (siteKey && window.turnstile) {
-      window.turnstile.render('#turnstile-container', {
-        sitekey: siteKey,
-        callback: (token: string) => {
-          setTurnstileToken(token);
-          setErrors(prev => {
-            const newErrors = { ...prev };
-            delete newErrors.turnstile;
-            return newErrors;
+    if (!siteKey) {
+      console.warn('Cloudflare Turnstile site key is missing');
+      return;
+    }
+
+    const renderTurnstile = () => {
+      console.log('Attempting to render Turnstile...');
+      if (window.turnstile && document.getElementById('turnstile-container')) {
+        try {
+          window.turnstile.render('#turnstile-container', {
+            sitekey: siteKey,
+            callback: (token: string) => {
+              setTurnstileToken(token);
+              setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors.turnstile;
+                return newErrors;
+              });
+            },
+            'error-callback': (err: any) => {
+              console.error('Turnstile error:', err);
+            }
           });
-        },
-      });
+          console.log('Turnstile rendered successfully');
+        } catch (e) {
+          console.error('Turnstile render failed:', e);
+        }
+      } else {
+        console.warn('Turnstile render skipped: window.turnstile or container missing', {
+          hasTurnstile: !!window.turnstile,
+          hasContainer: !!document.getElementById('turnstile-container')
+        });
+      }
+    };
+
+    if (window.turnstile) {
+      renderTurnstile();
+    } else {
+      // If script hasn't loaded yet, wait for it
+      const interval = setInterval(() => {
+        if (window.turnstile) {
+          renderTurnstile();
+          clearInterval(interval);
+        }
+      }, 500);
+      return () => clearInterval(interval);
     }
   }, []);
 
