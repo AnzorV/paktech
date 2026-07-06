@@ -198,10 +198,13 @@ const Navbar: React.FC = () => {
 
           {/* Mobile Menu Toggle */}
           <div className="md:hidden flex items-center justify-between w-full h-14">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-white rounded-full animate-pulse shadow-[0_0_8px_white]"></div>
-              <span className="text-white font-black text-xs uppercase tracking-[0.2em]">Menu</span>
-            </div>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="flex items-center gap-2 group/menu focus:outline-none"
+            >
+              <div className="w-2 h-2 bg-white rounded-full animate-pulse shadow-[0_0_8px_white] group-hover/menu:scale-125 transition-transform"></div>
+              <span className="text-white font-black text-xs uppercase tracking-[0.2em] group-hover/menu:text-blue-200 transition-colors">Menu</span>
+            </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-white hover:bg-white/10 p-2 rounded-xl transition-all duration-300 active:scale-90 flex items-center justify-center border border-white/5"
