@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, LazyMotion, domMax } from 'framer-motion';
 import { Quote, Newspaper, ChevronRight } from 'lucide-react';
 
 const news = [
@@ -30,14 +30,15 @@ const Sidebar: React.FC = () => {
   }, []);
 
   return (
-    <div className="space-y-12">
+    <LazyMotion features={domMax}>
+      <div className="space-y-8 sm:space-y-12">
       {/* Latest News */}
       <section>
-        <div className="flex items-center space-x-2 text-blue-600 mb-6 border-b border-blue-100 pb-2">
-          <Newspaper className="w-5 h-5" />
-          <h2 className="text-xl font-bold uppercase tracking-wider">Latest News</h2>
+        <div className="flex items-center space-x-2 text-blue-600 mb-4 sm:mb-6 border-b border-blue-100 pb-2">
+          <Newspaper className="w-4 h-4 sm:w-5 sm:h-5" />
+          <h2 className="text-lg sm:text-xl font-bold uppercase tracking-wider">Latest News</h2>
         </div>
-        <div className="relative min-h-[160px]">
+        <div className="relative min-h-[140px] sm:min-h-[160px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={newsIdx}
@@ -47,10 +48,10 @@ const Sidebar: React.FC = () => {
               transition={{ duration: 0.5, ease: "anticipate" }}
               className="will-change-transform"
             >
-              <p className="text-gray-600 text-sm leading-relaxed mb-4 italic">
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 italic">
                 {news[newsIdx]}
               </p>
-              <Link to="/paknet/" className="inline-flex items-center text-blue-600 font-semibold text-xs uppercase hover:underline py-2 min-h-[44px]">
+              <Link to="/paknet/" className="inline-flex items-center text-blue-600 font-semibold text-[10px] sm:text-xs uppercase hover:underline py-2 min-h-[44px]">
                 Find out more <ChevronRight className="ml-1 w-3 h-3" />
               </Link>
             </motion.div>
@@ -60,11 +61,11 @@ const Sidebar: React.FC = () => {
 
       {/* Testimonials */}
       <section>
-        <div className="flex items-center space-x-2 text-blue-600 mb-6 border-b border-blue-100 pb-2">
-          <Quote className="w-5 h-5" />
-          <h2 className="text-xl font-bold uppercase tracking-wider">Testimonials</h2>
+        <div className="flex items-center space-x-2 text-blue-600 mb-4 sm:mb-6 border-b border-blue-100 pb-2">
+          <Quote className="w-4 h-4 sm:w-5 sm:h-5" />
+          <h2 className="text-lg sm:text-xl font-bold uppercase tracking-wider">Testimonials</h2>
         </div>
-        <div className="relative min-h-[220px]">
+        <div className="relative min-h-[200px] sm:min-h-[220px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={testiIdx}
@@ -72,12 +73,12 @@ const Sidebar: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.05 }}
               transition={{ duration: 0.6, ease: "anticipate" }}
-              className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm will-change-transform"
+              className="bg-white p-5 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border border-gray-100 shadow-sm will-change-transform"
             >
-              <p className="text-gray-700 text-sm leading-relaxed mb-4 italic">
+              <p className="text-gray-700 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 italic">
                 "{testimonials[testiIdx].quote}"
               </p>
-              <p className="text-blue-600 font-bold text-xs uppercase tracking-widest border-t pt-4">
+              <p className="text-blue-600 font-bold text-[10px] sm:text-xs uppercase tracking-widest border-t pt-3 sm:pt-4">
                 — {testimonials[testiIdx].author}
               </p>
             </motion.div>
@@ -88,18 +89,19 @@ const Sidebar: React.FC = () => {
       {/* Quick Contact CTA */}
       <motion.section 
         whileHover={{ scale: 1.02 }}
-        className="bg-blue-600 rounded-[2rem] p-8 text-white shadow-xl shadow-blue-200"
+        className="bg-blue-600 rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 text-white shadow-xl shadow-blue-200"
       >
-        <h3 className="text-lg font-bold mb-2">Need Support?</h3>
-        <p className="text-blue-100 text-xs mb-4">Our engineers are available 24/7/365 for your critical systems.</p>
+        <h3 className="text-base sm:text-lg font-bold mb-2">Need Support?</h3>
+        <p className="text-blue-100 text-[10px] sm:text-xs mb-4">Our engineers are available 24/7/365 for your critical systems.</p>
         <Link 
           to="/contact-us/" 
-          className="block text-center bg-white text-blue-600 font-bold py-3 rounded-[1.5rem] text-sm hover:bg-blue-50 transition-colors shadow-lg cursor-pointer"
+          className="block text-center bg-white text-blue-600 font-bold py-2.5 sm:py-3 rounded-[1.25rem] sm:rounded-[1.5rem] text-xs sm:text-sm hover:bg-blue-50 transition-colors shadow-lg cursor-pointer"
         >
           Contact Us
         </Link>
       </motion.section>
     </div>
+    </LazyMotion>
   );
 };
 

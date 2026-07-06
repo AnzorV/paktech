@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { X, ChevronDown, ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, LazyMotion, domMax } from 'framer-motion';
 import { cn } from '../lib/utils';
 
 const Navbar: React.FC = () => {
@@ -13,9 +13,17 @@ const Navbar: React.FC = () => {
 
   React.useEffect(() => {
     const checkTouch = () => {
-      setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+      // More robust touch detection
+      const hasTouch = (
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        (window.matchMedia && window.matchMedia('(pointer: coarse)').matches)
+      );
+      setIsTouch(hasTouch);
     };
     checkTouch();
+    window.addEventListener('resize', checkTouch);
+    return () => window.removeEventListener('resize', checkTouch);
   }, []);
 
   const toggleSubmenu = (title: string) => {
@@ -31,14 +39,14 @@ const Navbar: React.FC = () => {
     setActiveSubmenus([]);
   };
 
-  const navItems = [
+  const navItems = React.useMemo(() => [
     { title: 'Home', href: '/' },
     {
       title: 'Safety & Control Systems',
       href: '/safety-systems/',
       submenu: [
-        {
-          title: 'Safety Systems',
+        { 
+          title: 'Safety Systems', 
           href: '/safety-systems/',
           submenu: [
             { title: 'CS300', href: '/safety-systems/cs300/' },
@@ -46,33 +54,33 @@ const Navbar: React.FC = () => {
             { title: 'Tricon CX', href: '/safety-systems/tricon-cx/' },
           ]
         },
-        { title: 'Control Systems', href: '/control-systems/' },
+        { 
+          title: 'Control Systems', 
+          href: '/control-systems/',
+        },
       ]
     },
     { title: 'SCADA', href: '/scada/' },
     { title: 'Power Supplies', href: '/power-supply-services/' },
     { title: 'PakNet', href: '/paknet/' },
     { title: 'Contact us', href: '/contact-us/' },
-  ];
+  ], []);
 
-  const isActive = (path: string) => {
+  const isActive = React.useCallback((path: string, exact = false) => {
     if (path === '/' && location.pathname !== '/') return false;
-    if (path === '/safety-systems/' && (
-      location.pathname === '/safety-systems/cs300/' ||
-      location.pathname === '/safety-systems/sc300e/' ||
-      location.pathname === '/safety-systems/tricon-cx/'
-    )) return true;
+    if (exact) return location.pathname === path;
+    if (path !== '/' && location.pathname.startsWith(path)) return true;
     return location.pathname === path;
-  };
+  }, [location.pathname]);
 
   return (
-    <>
-      <nav className="sticky top-0 z-[130] bg-pakblue/95 backdrop-blur-md shadow-xl border-b border-white/10 gpu-accelerated overflow-visible">
+    <LazyMotion features={domMax}>
+      <nav className="sticky top-0 z-[130] bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-100 gpu-accelerated overflow-visible">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14 lg:h-16">
+          <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Desktop Menu */}
             <div className="hidden lg:block w-full">
-              <ul className="flex items-center justify-start space-x-1">
+              <ul className="flex items-center justify-center space-x-2">
                 {navItems.map((item) => (
                   <li
                     key={item.title}
@@ -83,24 +91,26 @@ const Navbar: React.FC = () => {
                     <Link
                       to={item.href}
                       onClick={(e) => {
-                        if (isTouch && item.submenu) {
+                        if (isTouch && item.submenu && item.submenu.length > 0) {
                           e.preventDefault();
                           setHoveredItem(hoveredItem === item.title ? null : item.title);
+                        } else {
+                          closeMenu();
                         }
                       }}
                       className={cn(
-                        "relative flex items-center text-white/80 hover:text-white px-2 xl:px-4 py-5 text-[11px] xl:text-[13px] font-bold uppercase tracking-tight xl:tracking-widest transition-all duration-300 min-h-[44px] group",
-                        isActive(item.href) && "text-white"
+                        "relative flex items-center text-gray-600 hover:text-pakblue px-4 xl:px-8 py-7 text-[13px] xl:text-[15px] font-bold uppercase tracking-wider transition-all duration-300 min-h-[44px] group",
+                        isActive(item.href) && "text-pakblue"
                       )}
                     >
-                      <span className="relative z-10">{item.title}</span>
-                      {item.submenu && (
+                      <span className="relative z-10 transition-transform duration-300 group-hover:scale-105">{item.title}</span>
+                      {item.submenu && item.submenu.length > 0 && (
                         <motion.div
                           animate={{ rotate: hoveredItem === item.title ? 180 : 0 }}
-                          transition={{ duration: 0.3, ease: "anticipate" }}
+                          transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
                           className="ml-2 z-10"
                         >
-                          <ChevronDown className="w-4 h-4 opacity-70 group-hover:opacity-100" />
+                          <ChevronDown className="w-4 h-4 opacity-40 group-hover:opacity-100 transition-opacity" />
                         </motion.div>
                       )}
                       
@@ -109,11 +119,11 @@ const Navbar: React.FC = () => {
                         {hoveredItem === item.title && (
                           <motion.div
                             layoutId="nav-hover"
-                            className="absolute inset-0 bg-white/10 rounded-full -z-0"
+                            className="absolute inset-x-0 inset-y-4 bg-gray-50 rounded-2xl -z-0"
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            transition={{ duration: 0.2 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
                           />
                         )}
                       </AnimatePresence>
@@ -121,7 +131,7 @@ const Navbar: React.FC = () => {
                       {isActive(item.href) && (
                         <motion.div
                           layoutId="nav-underline"
-                          className="absolute bottom-1 left-2 right-2 h-0.5 bg-blue-400 rounded-full"
+                          className="absolute bottom-4 left-4 right-4 h-0.5 bg-pakblue rounded-full"
                           initial={false}
                           transition={{ type: "spring", stiffness: 380, damping: 30 }}
                         />
@@ -129,72 +139,123 @@ const Navbar: React.FC = () => {
                     </Link>
 
                     <AnimatePresence>
-                      {item.submenu && hoveredItem === item.title && (
+                      {item.submenu && item.submenu.length > 0 && hoveredItem === item.title && (
                         <motion.ul
-                          initial={{ opacity: 0, y: 15, scale: 0.95, filter: "blur(4px)" }}
+                          initial={{ opacity: 0, y: 15, scale: 0.95, filter: "blur(10px)" }}
                           animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-                          exit={{ opacity: 0, y: 10, scale: 0.95, filter: "blur(4px)" }}
-                          transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-                          className="absolute left-0 w-72 bg-white/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-2xl border border-white/20 py-4 mt-3 overflow-hidden"
+                          exit={{ opacity: 0, y: 10, scale: 0.95, filter: "blur(10px)" }}
+                          transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                          className="absolute left-0 w-80 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-2xl border border-gray-100 py-8 mt-1 z-[150]"
                         >
-                          <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent pointer-events-none" />
-                          {item.submenu.map((sub, idx) => (
-                            <motion.li 
-                              key={sub.title} 
-                              className="relative group/sub"
-                              initial={{ opacity: 0, x: -10 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: idx * 0.05 }}
-                            >
-                              <Link
-                                to={sub.href}
-                                onClick={(e) => {
-                                  if (isTouch && sub.submenu) {
-                                    e.preventDefault();
-                                    toggleSubmenu(sub.title);
-                                  }
-                                }}
-                                className="flex items-center justify-between px-6 py-3.5 text-sm text-gray-700 hover:bg-pakblue hover:text-white transition-all duration-300 rounded-xl mx-2 group/link"
-                              >
-                                <span className="font-semibold tracking-wide">{sub.title}</span>
-                                {sub.submenu && (
-                                  <motion.div
-                                    animate={{ 
-                                      rotate: (isTouch && activeSubmenus.includes(sub.title)) ? 90 : 0,
-                                      x: (isTouch && activeSubmenus.includes(sub.title)) ? 0 : 0
+                          <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-transparent pointer-events-none rounded-2xl" />
+                            {item.submenu.map((sub, idx) => {
+                              const subId = `desktop-${item.title}-${sub.title}-${idx}`;
+                              return (
+                                <motion.li 
+                                  key={subId} 
+                                  className={cn(
+                                    "relative group/sub mb-1 last:mb-0",
+                                    sub.title === 'Control Systems' && "mt-6"
+                                  )}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: idx * 0.05 }}
+                                >
+                                  <Link
+                                    to={sub.href}
+                                    onClick={(e) => {
+                                      if (isTouch && sub.submenu && sub.submenu.length > 0) {
+                                        e.preventDefault();
+                                        toggleSubmenu(subId);
+                                      } else {
+                                        closeMenu();
+                                      }
                                     }}
-                                    transition={{ duration: 0.3 }}
+                                    className={cn(
+                                      "flex items-center justify-between px-6 py-4.5 text-sm transition-all duration-300 rounded-xl mx-3 group/link relative z-10 shadow-sm hover:shadow-md",
+                                      isActive(sub.href, true) 
+                                        ? "bg-gradient-to-r from-pakblue to-blue-600 text-white" 
+                                        : "text-gray-700 hover:bg-gray-100"
+                                    )}
                                   >
-                                    <ChevronRight className={cn(
-                                      "w-4 h-4 opacity-30 transition-all",
-                                      "group-hover/link:opacity-100 group-hover/link:translate-x-1"
-                                    )} />
-                                  </motion.div>
-                                )}
-                              </Link>
-                              {sub.submenu && (
-                                <div className={cn(
-                                  "absolute left-full top-[-16px] w-64 opacity-0 invisible transition-all duration-300 pl-4",
-                                  "group-hover/sub:opacity-100 group-hover/sub:visible",
-                                  isTouch && activeSubmenus.includes(sub.title) && "opacity-100 visible"
-                                )}>
-                                  <ul className="bg-white/95 backdrop-blur-xl shadow-2xl rounded-2xl border border-white/20 py-3 overflow-hidden">
-                                    <div className="absolute top-0 left-0 w-1.5 h-full bg-pakblue"></div>
-                                    {sub.submenu.map((inner) => (
-                                      <li key={inner.title}>
-                                        <Link
-                                          to={inner.href}
-                                          className="block px-6 py-2.5 text-sm text-gray-600 hover:bg-blue-50 hover:text-pakblue transition-colors duration-200 font-medium"
-                                        >
-                                          {inner.title}
-                                        </Link>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-                            </motion.li>
-                          ))}
+                                    <span className="font-bold tracking-wide uppercase text-[12px]">{sub.title}</span>
+                                    {sub.submenu && sub.submenu.length > 0 && (
+                                      <motion.div
+                                        animate={{ 
+                                          rotate: (isTouch && activeSubmenus.includes(subId)) ? 90 : 0,
+                                        }}
+                                        transition={{ duration: 0.3 }}
+                                      >
+                                        <ChevronRight className={cn(
+                                          "w-4 h-4 opacity-40 transition-all",
+                                          "group-hover/link:opacity-100 group-hover/link:translate-x-1"
+                                        )} />
+                                      </motion.div>
+                                    )}
+                                  </Link>
+                                  {sub.submenu && sub.submenu.length > 0 && (
+                                    <div className={cn(
+                                      "absolute left-full top-[-32px] w-72 opacity-0 invisible transition-all duration-300 pl-4 z-50",
+                                      "group-hover/sub:opacity-100 group-hover/sub:visible",
+                                      isTouch && activeSubmenus.includes(subId) && "opacity-100 visible"
+                                    )}>
+                                      <ul className="bg-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-2xl border border-gray-100 py-6 relative">
+                                        {sub.submenu.map((inner, iIdx) => {
+                                          const innerId = `desktop-${subId}-${inner.title}-${iIdx}`;
+                                          return (
+                                            <li key={innerId} className="relative group/inner">
+                                              <Link
+                                                to={inner.href}
+                                                onClick={closeMenu}
+                                                className={cn(
+                                                  "flex items-center justify-between px-6 py-3.5 text-[13px] transition-colors duration-200 font-bold uppercase tracking-tight relative z-10",
+                                                  isActive(inner.href, true)
+                                                    ? "bg-blue-50 text-pakblue"
+                                                    : "text-gray-600 hover:bg-blue-50 hover:text-pakblue"
+                                                )}
+                                              >
+                                                <span>{inner.title}</span>
+                                                {inner.submenu && inner.submenu.length > 0 && (
+                                                  <motion.div
+                                                    animate={{ 
+                                                      rotate: (isTouch && activeSubmenus.includes(innerId)) ? 90 : 0,
+                                                    }}
+                                                    transition={{ duration: 0.3 }}
+                                                  >
+                                                    <ChevronRight className="w-3.5 h-3.5 opacity-30 group-hover/inner:opacity-100" />
+                                                  </motion.div>
+                                                )}
+                                              </Link>
+                                              {inner.submenu && inner.submenu.length > 0 && (
+                                                <div className={cn(
+                                                  "absolute left-full top-0 w-64 opacity-0 invisible transition-all duration-300 pl-3 z-[60]",
+                                                  "group-hover/inner:opacity-100 group-hover/inner:visible",
+                                                  isTouch && activeSubmenus.includes(innerId) && "opacity-100 visible"
+                                                )}>
+                                                  <ul className="bg-white shadow-[0_15px_40px_rgba(0,0,0,0.1)] rounded-2xl border border-gray-100 py-3">
+                                                    {inner.submenu.map((lastItem, lIdx) => (
+                                                      <li key={`${innerId}-last-${lIdx}`}>
+                                                        <Link
+                                                          to={lastItem.href}
+                                                          onClick={closeMenu}
+                                                          className="block px-6 py-2.5 text-[12px] text-gray-500 hover:bg-gray-50 hover:text-pakblue transition-colors font-medium"
+                                                        >
+                                                          {lastItem.title}
+                                                        </Link>
+                                                      </li>
+                                                    ))}
+                                                  </ul>
+                                                </div>
+                                              )}
+                                            </li>
+                                          );
+                                        })}
+                                      </ul>
+                                    </div>
+                                  )}
+                                </motion.li>
+                              );
+                            })}
                         </motion.ul>
                       )}
                     </AnimatePresence>
@@ -204,24 +265,24 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Mobile Menu Toggle */}
-            <div className="lg:hidden flex items-center justify-end w-full h-14 relative z-[150] px-4">
+            <div className="lg:hidden flex items-center justify-end w-full h-16 relative z-[150] px-2 sm:px-4">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="group relative w-12 h-12 flex items-center justify-center active:bg-white/20 active:scale-90 rounded-full transition-all duration-300 shadow-xl overflow-hidden"
+                className="group relative w-12 h-12 flex items-center justify-center active:bg-gray-100 active:scale-90 rounded-full transition-all duration-300 overflow-hidden"
                 aria-label="Toggle Menu"
               >
                 <div className="relative w-6 h-5">
                   <motion.span
-                    animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                    className="absolute top-0 left-0 w-full h-0.5 bg-white rounded-full transition-all"
+                    animate={isOpen ? { rotate: 45, y: 8, backgroundColor: "#005CAB" } : { rotate: 0, y: 0, backgroundColor: "#374151" }}
+                    className="absolute top-0 left-0 w-full h-0.5 rounded-full transition-all"
                   />
                   <motion.span
-                    animate={isOpen ? { opacity: 0, x: 20 } : { opacity: 1, x: 0 }}
-                    className="absolute top-2 left-0 w-full h-0.5 bg-white rounded-full transition-all"
+                    animate={isOpen ? { opacity: 0, x: 20 } : { opacity: 1, x: 0, backgroundColor: "#374151" }}
+                    className="absolute top-2 left-0 w-full h-0.5 rounded-full transition-all"
                   />
                   <motion.span
-                    animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                    className="absolute bottom-0 left-0 w-full h-0.5 bg-white rounded-full transition-all"
+                    animate={isOpen ? { rotate: -45, y: -8, backgroundColor: "#005CAB" } : { rotate: 0, y: 0, backgroundColor: "#374151" }}
+                    className="absolute bottom-0 left-0 w-full h-0.5 rounded-full transition-all"
                   />
                 </div>
               </button>
@@ -245,11 +306,11 @@ const Navbar: React.FC = () => {
 
             {/* Menu Container */}
             <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
-              className="lg:hidden fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-white z-[140] shadow-2xl flex flex-col overflow-hidden sm:rounded-l-2xl"
+              initial={{ y: '-100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '-100%' }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="lg:hidden fixed top-0 left-0 right-0 max-h-[85vh] bg-white z-[140] shadow-2xl flex flex-col overflow-hidden rounded-b-3xl"
             >
               {/* Menu Header */}
               <div className="p-6 bg-pakblue text-white relative">
@@ -268,9 +329,9 @@ const Navbar: React.FC = () => {
                 </div>
               </div>
               
-              <div className="flex-1 overflow-y-auto no-scrollbar py-6">
-                <nav className="px-6">
-                  <ul className="space-y-1">
+              <div className="flex-1 overflow-y-auto no-scrollbar py-2 sm:py-6">
+                <nav className="px-4 sm:px-6">
+                  <ul className="space-y-0.5 sm:space-y-1">
                     {navItems.map((item, idx) => (
                       <motion.li 
                         key={item.title}
@@ -278,96 +339,188 @@ const Navbar: React.FC = () => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.1 + idx * 0.05 }}
                       >
-                        <div className="flex flex-col">
-                          <div className="flex items-center">
-                            <Link
-                              to={item.href}
-                              onClick={closeMenu}
-                              className={cn(
-                                "flex-1 py-4 text-lg font-bold text-gray-800 transition-colors flex items-center gap-3",
-                                isActive(item.href) && "text-pakblue"
-                              )}
-                            >
-                              {isActive(item.href) && (
-                                <motion.div 
-                                  layoutId="mobile-active-dot"
-                                  className="w-1.5 h-1.5 bg-pakblue rounded-full" 
-                                />
-                              )}
-                              {item.title}
-                            </Link>
-                            {item.submenu && (
-                              <button
-                                onClick={() => toggleSubmenu(item.title)}
-                                className={cn(
-                                  "p-4 text-gray-400 hover:text-pakblue transition-all rounded-full",
-                                  activeSubmenus.includes(item.title) && "bg-blue-50 text-pakblue"
-                                )}
-                              >
-                                <ChevronDown className={cn(
-                                  "w-5 h-5 transition-transform duration-300",
-                                  activeSubmenus.includes(item.title) && "rotate-180"
-                                )} />
-                              </button>
-                            )}
-                          </div>
+                                <div className="flex flex-col">
+                                  <div className="flex items-center">
+                                    <Link
+                                      to={item.href}
+                                      onClick={(e) => {
+                                        if (item.submenu && item.submenu.length > 0) {
+                                          e.preventDefault();
+                                          toggleSubmenu(item.title);
+                                        } else {
+                                          closeMenu();
+                                        }
+                                      }}
+                                      className={cn(
+                                        "flex-1 py-3.5 sm:py-4 text-base sm:text-lg font-bold text-gray-800 transition-colors flex items-center gap-3",
+                                        isActive(item.href) && "text-pakblue"
+                                      )}
+                                    >
+                                      {isActive(item.href) && (
+                                        <motion.div 
+                                          layoutId="mobile-active-dot"
+                                          className="w-1.5 h-1.5 bg-pakblue rounded-full" 
+                                        />
+                                      )}
+                                      {item.title}
+                                    </Link>
+                                    {item.submenu && item.submenu.length > 0 && (
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          toggleSubmenu(item.title);
+                                        }}
+                                        className={cn(
+                                          "p-4 sm:p-5 -mr-2 text-gray-400 hover:text-pakblue transition-all rounded-full ml-1 flex items-center justify-center",
+                                          activeSubmenus.includes(item.title) && "bg-blue-50 text-pakblue"
+                                        )}
+                                      >
+                                        <ChevronDown className={cn(
+                                          "w-7 h-7 transition-transform duration-300",
+                                          activeSubmenus.includes(item.title) && "rotate-180"
+                                        )} />
+                                      </button>
+                                    )}
+                                  </div>
 
                           <AnimatePresence>
-                            {item.submenu && activeSubmenus.includes(item.title) && (
+                            {item.submenu && item.submenu.length > 0 && activeSubmenus.includes(item.title) && (
                               <motion.div
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: "auto", opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
                                 className="overflow-hidden"
                               >
-                                <ul className="pl-4 border-l-2 border-blue-50 ml-2 mb-4 space-y-1">
-                                  {item.submenu.map((sub) => (
-                                    <li key={sub.title}>
-                                      <div className="flex items-center">
-                                        <Link
-                                          to={sub.href}
-                                          onClick={closeMenu}
-                                          className="flex-1 py-3 text-[16px] font-semibold text-gray-600 hover:text-pakblue"
-                                        >
-                                          {sub.title}
-                                        </Link>
-                                        {sub.submenu && (
-                                          <button
-                                            onClick={() => toggleSubmenu(sub.title)}
-                                            className="p-3 text-gray-400"
-                                          >
-                                            <ChevronDown className={cn(
-                                              "w-4 h-4 transition-transform duration-300",
-                                              activeSubmenus.includes(sub.title) && "rotate-180"
-                                            )} />
-                                          </button>
+                                <ul className="pl-6 border-l-2 border-blue-100/50 ml-4 mb-4 sm:mb-6 space-y-1 sm:space-y-2">
+                                  {item.submenu.map((sub, sIdx) => {
+                                    const subId = `${item.title}-${sub.title}-${sIdx}`;
+                                    return (
+                                      <li 
+                                        key={subId}
+                                        className={cn(
+                                          sub.title === 'Control Systems' && "pt-4 border-t border-gray-100 mt-2"
                                         )}
-                                      </div>
-                                      
-                                      <AnimatePresence>
-                                        {sub.submenu && activeSubmenus.includes(sub.title) && (
-                                          <motion.ul
-                                            initial={{ height: 0, opacity: 0 }}
-                                            animate={{ height: "auto", opacity: 1 }}
-                                            exit={{ height: 0, opacity: 0 }}
-                                            className="overflow-hidden pl-4 border-l-2 border-blue-50 ml-1 mb-2 space-y-1"
+                                      >
+                                        <div className="flex items-center">
+                                          <Link
+                                            to={sub.href}
+                                            onClick={(e) => {
+                                              if (sub.submenu && sub.submenu.length > 0) {
+                                                e.preventDefault();
+                                                toggleSubmenu(subId);
+                                              } else {
+                                                closeMenu();
+                                              }
+                                            }}
+                                            className={cn(
+                                              "flex-1 py-3 sm:py-4 text-sm sm:text-[17px] font-bold transition-colors duration-200",
+                                              isActive(sub.href) ? "text-pakblue" : "text-gray-600 hover:text-pakblue"
+                                            )}
                                           >
-                                            {sub.submenu.map((inner) => (
-                                              <li key={inner.title}>
-                                                <Link
-                                                  to={inner.href}
-                                                  onClick={closeMenu}
-                                                  className="block py-2.5 text-sm font-medium text-gray-500 hover:text-pakblue"
-                                                >
-                                                  {inner.title}
-                                                </Link>
-                                              </li>
-                                            ))}
-                                          </motion.ul>
-                                        )}
-                                      </AnimatePresence>
-                                    </li>
-                                  ))}
+                                            {sub.title}
+                                          </Link>
+                                          {sub.submenu && sub.submenu.length > 0 && (
+                                            <button
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                toggleSubmenu(subId);
+                                              }}
+                                              className={cn(
+                                                "p-4 sm:p-5 -mr-2 text-gray-400 rounded-full ml-1 flex items-center justify-center",
+                                                activeSubmenus.includes(subId) && "bg-blue-50 text-pakblue"
+                                              )}
+                                            >
+                                              <ChevronDown className={cn(
+                                                "w-6 h-6 transition-transform duration-300",
+                                                activeSubmenus.includes(subId) && "rotate-180"
+                                              )} />
+                                            </button>
+                                          )}
+                                        </div>
+                                        
+                                        <AnimatePresence>
+                                          {sub.submenu && sub.submenu.length > 0 && activeSubmenus.includes(subId) && (
+                                            <motion.ul
+                                              initial={{ height: 0, opacity: 0 }}
+                                              animate={{ height: "auto", opacity: 1 }}
+                                              exit={{ height: 0, opacity: 0 }}
+                                              className="overflow-hidden pl-6 border-l-2 border-blue-100/50 ml-2 mb-2 sm:mb-4 space-y-1 sm:space-y-2"
+                                            >
+                                              {sub.submenu.map((inner, iIdx) => {
+                                                const innerId = `${subId}-${inner.title}-${iIdx}`;
+                                                return (
+                                                  <li key={innerId}>
+                                                    <div className="flex items-center">
+                                                      <Link
+                                                        to={inner.href}
+                                                        onClick={(e) => {
+                                                          if (inner.submenu && inner.submenu.length > 0) {
+                                                            e.preventDefault();
+                                                            toggleSubmenu(innerId);
+                                                          } else {
+                                                            closeMenu();
+                                                          }
+                                                        }}
+                                                        className={cn(
+                                                          "flex-1 py-2.5 sm:py-3.5 text-xs sm:text-[15px] font-bold transition-colors duration-200",
+                                                          isActive(inner.href) ? "text-pakblue" : "text-gray-500 hover:text-pakblue"
+                                                        )}
+                                                      >
+                                                        {inner.title}
+                                                      </Link>
+                                                      {inner.submenu && inner.submenu.length > 0 && (
+                                                        <button
+                                                          onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            toggleSubmenu(innerId);
+                                                          }}
+                                                          className={cn(
+                                                            "p-3 text-gray-400 rounded-full ml-1",
+                                                            activeSubmenus.includes(innerId) && "bg-blue-50 text-pakblue"
+                                                          )}
+                                                        >
+                                                          <ChevronDown className={cn(
+                                                            "w-4 h-4 transition-transform duration-300",
+                                                            activeSubmenus.includes(innerId) && "rotate-180"
+                                                          )} />
+                                                        </button>
+                                                      )}
+                                                    </div>
+                                                    
+                                                    <AnimatePresence>
+                                                      {inner.submenu && inner.submenu.length > 0 && activeSubmenus.includes(innerId) && (
+                                                        <motion.ul
+                                                          initial={{ height: 0, opacity: 0 }}
+                                                          animate={{ height: "auto", opacity: 1 }}
+                                                          exit={{ height: 0, opacity: 0 }}
+                                                          className="overflow-hidden pl-4 border-l-2 border-blue-50 ml-1 mb-1 sm:mb-2 space-y-0.5 sm:space-y-1"
+                                                        >
+                                                          {inner.submenu.map((lastItem, lIdx) => (
+                                                            <li key={`${innerId}-last-${lIdx}`}>
+                                                              <Link
+                                                                to={lastItem.href}
+                                                                onClick={closeMenu}
+                                                                className={cn(
+                                                                  "block py-1.5 sm:py-2 text-[12px] sm:text-[13px] transition-colors duration-200 font-medium",
+                                                                  isActive(lastItem.href) ? "text-pakblue" : "text-gray-400 hover:text-pakblue"
+                                                                )}
+                                                              >
+                                                                {lastItem.title}
+                                                              </Link>
+                                                            </li>
+                                                          ))}
+                                                        </motion.ul>
+                                                      )}
+                                                    </AnimatePresence>
+                                                  </li>
+                                                );
+                                              })}
+                                            </motion.ul>
+                                          )}
+                                        </AnimatePresence>
+                                      </li>
+                                    );
+                                  })}
                                 </ul>
                               </motion.div>
                             )}
@@ -393,7 +546,7 @@ const Navbar: React.FC = () => {
           </>
         )}
       </AnimatePresence>
-    </>
+    </LazyMotion>
   );
 };
 

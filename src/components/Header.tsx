@@ -5,34 +5,38 @@ import person from '../assets/person.png';
 
 const Header: React.FC = () => {
   return (
-    <header className="bg-pakblue flex items-center justify-between shadow-xl overflow-hidden relative min-h-[100px] md:min-h-[160px]">
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-15 pointer-events-none"></div>
+    <header className="bg-gradient-to-r from-pakblue via-[#004e92] to-pakblue flex items-center justify-between shadow-2xl overflow-hidden relative min-h-[100px] md:min-h-[160px]">
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none"></div>
       
-      <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 pl-4 sm:pl-6 lg:pl-8 z-10 py-4 flex-1">
-        <Link to="/" className="transition-transform hover:scale-105 duration-300 flex-shrink-0">
+      <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10 pl-4 sm:pl-8 lg:pl-12 z-10 py-6 sm:py-4 flex-1">
+        <Link to="/" className="transition-all hover:scale-105 hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] duration-500 flex-shrink-0">
           <img 
             src={logo} 
             alt="Paktech Limited" 
-            className="w-full max-w-[180px] sm:max-w-[220px] md:max-w-[280px] h-auto object-contain drop-shadow-md brightness-0 invert" 
+            className="w-full max-w-[160px] xs:max-w-[200px] sm:max-w-[240px] md:max-w-[300px] h-auto object-contain drop-shadow-2xl brightness-0 invert" 
+            loading="eager"
+            decoding="async"
           />
         </Link>
         
-        <div className="hidden lg:block w-px h-12 bg-white/30 self-center"></div>
+        <div className="hidden lg:block w-px h-16 bg-gradient-to-b from-transparent via-white/30 to-transparent self-center"></div>
 
-        <div className="flex items-center flex-1">
-          <h1 className="text-white text-sm sm:text-base md:text-lg lg:text-xl font-bold tracking-tight max-w-xl leading-snug italic drop-shadow-lg opacity-95 text-center sm:text-left">
+        <div className="flex items-center flex-1 w-full sm:w-auto">
+          <h1 className="text-white text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-extrabold tracking-tight max-w-2xl leading-tight italic drop-shadow-2xl opacity-100 text-center sm:text-left w-full sm:w-auto px-4 sm:px-0 bg-clip-text">
             Control Systems Design, Integration and Commissioning Services
           </h1>
         </div>
       </div>
 
-      <div className="hidden sm:flex items-stretch justify-end z-10 self-stretch">
+      <div className="hidden sm:flex items-stretch justify-end z-10 self-stretch relative">
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-pakblue to-transparent z-30"></div>
         <div className="relative group flex-shrink-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-l from-black/40 via-black/10 to-transparent opacity-80 group-hover:opacity-90 transition duration-700 z-20"></div>
+          <div className="absolute inset-0 bg-gradient-to-l from-black/50 via-black/20 to-transparent opacity-80 group-hover:opacity-70 transition duration-700 z-20"></div>
           <img 
             src={person} 
             alt="Technical Expert" 
-            className="relative w-32 md:w-64 lg:w-80 h-full object-cover grayscale-[0.1] brightness-110 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700 ease-in-out [mask-image:linear-gradient(to_right,transparent,black_40%)]" 
+            className="relative w-36 md:w-64 lg:w-96 h-full object-cover grayscale-[0.2] brightness-110 group-hover:grayscale-0 group-hover:brightness-105 group-hover:scale-110 transition-all duration-1000 ease-in-out [mask-image:linear-gradient(to_right,transparent,black_30%)]" 
           />
         </div>
       </div>

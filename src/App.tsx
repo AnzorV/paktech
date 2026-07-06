@@ -1,19 +1,29 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
-import Home from './pages/Home';
-import SafetySystems from './pages/SafetySystems';
-import SCADA from './pages/SCADA';
-import PowerSupplies from './pages/PowerSupplies';
-import PakNet from './pages/PakNet';
-import ContactUs from './pages/ContactUs';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import Sitemap from './pages/Sitemap';
-import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import './index.css';
+
+// Lazy load pages
+const Home = lazy(() => import('./pages/Home'));
+const SafetySystems = lazy(() => import('./pages/SafetySystems'));
+const SCADA = lazy(() => import('./pages/SCADA'));
+const PowerSupplies = lazy(() => import('./pages/PowerSupplies'));
+const PakNet = lazy(() => import('./pages/PakNet'));
+const ContactUs = lazy(() => import('./pages/ContactUs'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const Sitemap = lazy(() => import('./pages/Sitemap'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+
+// Loading component
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-[400px]">
+    <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
 
 function App() {
   return (
@@ -29,26 +39,29 @@ function App() {
         <Navbar />
 
         {/* Main Content Area */}
-        <main className="w-full py-4 sm:py-8 px-2 sm:px-6 lg:px-8">
-          <div className="bg-white shadow-2xl rounded-[2rem] overflow-hidden flex flex-col lg:flex-row w-full min-h-[600px]">
-            <div className="flex-1 p-4 sm:p-6 md:p-10">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/safety-systems/" element={<SafetySystems />} />
-                <Route path="/safety-systems/cs300/" element={<SafetySystems />} />
-                <Route path="/safety-systems/sc300e/" element={<SafetySystems />} />
-                <Route path="/safety-systems/tricon-cx/" element={<SafetySystems />} />
-                <Route path="/control-systems/" element={<SafetySystems />} />
-                <Route path="/scada/" element={<SCADA />} />
-                <Route path="/power-supply-services/" element={<PowerSupplies />} />
-                <Route path="/paknet/" element={<PakNet />} />
-                <Route path="/contact-us/" element={<ContactUs />} />
-                <Route path="/privacy-policy/" element={<PrivacyPolicy />} />
-                <Route path="/sitemap/" element={<Sitemap />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+        <main className="w-full py-8 sm:py-16 px-4 sm:px-6 lg:px-12 max-w-[1800px] mx-auto">
+          <div className="bg-white shadow-[0_32px_100px_rgba(0,0,0,0.1)] rounded-[3rem] overflow-hidden flex flex-col lg:flex-row w-full min-h-[600px] sm:min-h-[800px] border border-gray-100">
+            <div className="flex-1 p-6 sm:p-10 md:p-16 lg:p-20">
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/safety-systems/" element={<SafetySystems />} />
+                  <Route path="/safety-systems/cs300/" element={<SafetySystems />} />
+                  <Route path="/safety-systems/sc300e/" element={<SafetySystems />} />
+                  <Route path="/safety-systems/tricon-cx/" element={<SafetySystems />} />
+                  <Route path="/control-systems/" element={<SafetySystems />} />
+                  <Route path="/scada/" element={<SCADA />} />
+                  <Route path="/power-supply-services/" element={<PowerSupplies />} />
+                  <Route path="/paknet/" element={<PakNet />} />
+                  <Route path="/contact-us/" element={<ContactUs />} />
+                  <Route path="/privacy-policy/" element={<PrivacyPolicy />} />
+                  <Route path="/sitemap/" element={<Sitemap />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
             </div>
-            <aside className="w-full lg:w-80 bg-gray-50 p-4 sm:p-6 md:p-10 border-t lg:border-t-0 lg:border-l border-gray-100">
+            <aside className="w-full lg:w-[400px] bg-[#fdfdfd] p-6 sm:p-10 md:p-16 border-t lg:border-t-0 lg:border-l border-gray-100/80 relative">
+              <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-gray-200 to-transparent hidden lg:block" />
               <Sidebar />
             </aside>
           </div>
