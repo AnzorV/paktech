@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-[100] bg-pakblue/95 backdrop-blur-md shadow-xl border-b border-white/10 gpu-accelerated">
+    <nav className="sticky top-0 z-[100] bg-pakblue/95 backdrop-blur-md shadow-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 md:h-16">
           {/* Desktop Menu */}
@@ -248,7 +248,7 @@ const Navbar: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden fixed inset-x-0 top-[56px] bottom-0 bg-white z-[90] overflow-y-auto"
+            className="md:hidden fixed inset-x-0 top-[56px] max-h-[calc(100vh-56px)] bg-white z-[90] overflow-y-auto shadow-2xl rounded-b-2xl border-b border-gray-100"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-white pointer-events-none"></div>
             <ul className="relative px-6 pt-8 pb-20 space-y-4">
