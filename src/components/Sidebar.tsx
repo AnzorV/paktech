@@ -72,7 +72,7 @@ const Sidebar: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.05 }}
               transition={{ duration: 0.6, ease: "anticipate" }}
-              className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm will-change-transform"
+              className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm will-change-transform"
             >
               <p className="text-gray-700 text-sm leading-relaxed mb-4 italic">
                 "{testimonials[testiIdx].quote}"
@@ -88,13 +88,13 @@ const Sidebar: React.FC = () => {
       {/* Quick Contact CTA */}
       <motion.section 
         whileHover={{ scale: 1.02 }}
-        className="bg-blue-600 rounded-2xl p-6 text-white shadow-xl shadow-blue-200"
+        className="bg-blue-600 rounded-[2rem] p-8 text-white shadow-xl shadow-blue-200"
       >
         <h3 className="text-lg font-bold mb-2">Need Support?</h3>
         <p className="text-blue-100 text-xs mb-4">Our engineers are available 24/7/365 for your critical systems.</p>
         <Link 
           to="/contact-us/" 
-          className="block text-center bg-white text-blue-600 font-bold py-2 rounded-lg text-sm hover:bg-blue-50 transition-colors shadow-lg cursor-pointer"
+          className="block text-center bg-white text-blue-600 font-bold py-3 rounded-[1.5rem] text-sm hover:bg-blue-50 transition-colors shadow-lg cursor-pointer"
         >
           Contact Us
         </Link>

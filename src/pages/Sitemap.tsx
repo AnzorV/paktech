@@ -47,7 +47,7 @@ const Sitemap: React.FC = () => {
     <div className="space-y-8 pb-12">
       <section className="prose prose-blue max-w-none">
         <div className="flex items-center space-x-3 mb-4">
-          <div className="bg-blue-600 p-2 rounded-lg text-white">
+          <div className="bg-blue-600 p-3 rounded-xl text-white">
             <Layout className="w-8 h-8" />
           </div>
           <h1 className="text-3xl font-extrabold text-gray-900 m-0">Website Sitemap</h1>
@@ -64,7 +64,7 @@ const Sitemap: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+            className="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="flex items-center space-x-3 mb-6 pb-2 border-b border-gray-50">
               <div className="text-blue-600">{section.icon}</div>
@@ -91,7 +91,7 @@ const Sitemap: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="bg-blue-50 rounded-2xl p-8 border border-blue-100 flex flex-col md:flex-row items-center justify-between gap-6"
+        className="bg-blue-50 rounded-[2rem] p-8 border border-blue-100 flex flex-col md:flex-row items-center justify-between gap-6"
       >
         <div className="space-y-2 text-center md:text-left">
           <h3 className="text-blue-900 font-bold text-lg">Can't find what you're looking for?</h3>
@@ -99,7 +99,7 @@ const Sitemap: React.FC = () => {
         </div>
         <Link 
           to="/contact-us/" 
-          className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
+          className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-[1.5rem] font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
         >
           <Mail className="w-5 h-5 mr-2" />
           Get in Touch

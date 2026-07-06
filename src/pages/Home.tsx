@@ -93,7 +93,7 @@ const Home: React.FC = () => {
   return (
     <div className="space-y-12">
       {/* Hero Slider */}
-      <section className="relative h-[300px] md:h-[500px] overflow-hidden group shadow-2xl rounded-2xl will-change-transform">
+      <section className="relative h-[300px] md:h-[500px] overflow-hidden group shadow-2xl rounded-[2rem] will-change-transform">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -200,7 +200,7 @@ const Home: React.FC = () => {
             items: ["Bespoke Build", "19\" Rack Variants"]
           }
         ].map((feat) => (
-          <div key={feat.title} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+          <div key={feat.title} className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
             <h3 className="text-xl font-bold text-blue-600 mb-4 border-b pb-2">
               <Link to={feat.href} className="hover:underline cursor-pointer block py-2">{feat.title}</Link>
             </h3>
@@ -265,7 +265,7 @@ const Home: React.FC = () => {
               key={idx}
               whileHover={{ scale: 1.02 }}
               onClick={() => setSelectedPhoto(photo)}
-              className="relative aspect-square rounded-xl overflow-hidden shadow-sm bg-gray-100 group cursor-pointer"
+              className="relative aspect-square rounded-[1.5rem] overflow-hidden shadow-sm bg-gray-100 group cursor-pointer"
             >
               <img 
                 src={photo} 
@@ -306,7 +306,7 @@ const Home: React.FC = () => {
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               src={selectedPhoto} 
               alt="Full size project photo"
-              className="max-w-full max-h-full object-contain rounded-lg shadow-2xl will-change-transform"
+              className="max-w-full max-h-full object-contain rounded-[2rem] shadow-2xl will-change-transform"
               onClick={(e) => e.stopPropagation()}
             />
           </motion.div>

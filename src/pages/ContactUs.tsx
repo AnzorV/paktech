@@ -76,7 +76,7 @@ const ContactUs: React.FC = () => {
 
   return (
     <div className="space-y-12">
-      <section className="relative overflow-hidden rounded-2xl bg-pakblue p-8 md:p-12 text-white shadow-2xl">
+      <section className="relative overflow-hidden rounded-[2.5rem] bg-pakblue p-8 md:p-12 text-white shadow-2xl">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none"></div>
         <div className="relative z-10">
           <h1 className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight">How can we help you?</h1>
@@ -89,7 +89,7 @@ const ContactUs: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Contact Form */}
-        <section className="lg:col-span-2 bg-white p-6 md:p-10 rounded-2xl border border-gray-100 shadow-2xl relative">
+        <section className="lg:col-span-2 bg-white p-6 md:p-10 rounded-[2rem] border border-gray-100 shadow-2xl relative">
           <div className="flex items-center gap-3 mb-8">
             <div className="bg-blue-100 p-2.5 rounded-xl">
               <MessageSquare className="w-6 h-6 text-pakblue" />
@@ -97,7 +97,7 @@ const ContactUs: React.FC = () => {
             <h2 className="text-2xl font-bold text-gray-900">Send an Enquiry</h2>
           </div>
           
-          <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 sm:p-10 rounded-3xl border border-gray-100 shadow-2xl relative overflow-hidden group/form">
+          <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 sm:p-10 rounded-[2.5rem] border border-gray-100 shadow-2xl relative overflow-hidden group/form">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pakblue via-blue-400 to-pakblue opacity-0 group-hover/form:opacity-100 transition-opacity duration-700"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
@@ -223,7 +223,7 @@ const ContactUs: React.FC = () => {
 
         {/* Contact Info Cards */}
         <section className="lg:col-span-1 space-y-6">
-          <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-xl space-y-6">
+          <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-xl space-y-6">
             <h3 className="text-xl font-bold text-gray-900 border-b border-gray-50 pb-4">Contact Details</h3>
             
             <div className="space-y-6">
@@ -287,7 +287,7 @@ const ContactUs: React.FC = () => {
       </div>
 
       {/* Full Width Map Section */}
-      <section className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white h-[500px] relative group">
+      <section className="rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white h-[500px] relative group">
         <iframe 
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2382.471926610058!2d-2.1294860228308475!3d53.33475197997576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487a36c64993132f%3A0xc6c7936a9e88a0b9!2sPaktech%20Limited!5e0!3m2!1sen!2suk!4v1720261200000!5m2!1sen!2suk" 
           width="100%" 
@@ -316,7 +316,7 @@ const ContactUs: React.FC = () => {
           </div>
         </div>
         <div className="absolute bottom-6 left-6">
-          <div className="bg-white/90 backdrop-blur-md px-6 py-4 rounded-2xl shadow-2xl border border-white/50">
+          <div className="bg-white/90 backdrop-blur-md px-6 py-4 rounded-[1.5rem] shadow-2xl border border-white/50">
             <div className="flex items-center gap-4">
               <div className="bg-pakblue p-3 rounded-xl shadow-lg shadow-blue-200">
                 <MapPin className="w-6 h-6 text-white" />

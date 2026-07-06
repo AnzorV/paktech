@@ -102,11 +102,11 @@ const SafetySystems: React.FC = () => {
       {normalizedPath === '/safety-systems/' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {currentContent.systems?.map((sys: any) => (
-            <div key={sys.name} className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+            <div key={sys.name} className="bg-white p-6 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
               <h2 className="text-2xl font-bold text-blue-600 mb-4">{sys.name}</h2>
               <p className="text-gray-600 mb-4">{sys.details}</p>
               {sys.image && (
-                <img src={sys.image} alt={sys.name} className="rounded-lg w-full h-48 object-cover" />
+                <img src={sys.image} alt={sys.name} className="rounded-xl w-full h-48 object-cover" />
               )}
             </div>
           ))}
@@ -121,16 +121,16 @@ const SafetySystems: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               className="relative group"
             >
-              <div className="absolute -inset-2 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+              <div className="absolute -inset-2 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-[2rem] blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
               <img 
                 src={currentContent.image} 
                 alt={currentContent.title} 
-                className="relative rounded-xl w-full h-auto max-h-[600px] object-contain bg-gray-50 shadow-2xl mx-auto" 
+                className="relative rounded-[1.5rem] w-full h-auto max-h-[600px] object-contain bg-gray-50 shadow-2xl mx-auto" 
               />
             </motion.div>
           )}
 
-          <div className={`bg-white p-8 rounded-2xl border border-gray-100 shadow-sm ${(!currentContent.image || currentContent.fullImage) ? 'w-full' : ''}`}>
+          <div className={`bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm ${(!currentContent.image || currentContent.fullImage) ? 'w-full' : ''}`}>
             <div className={`grid grid-cols-1 ${(!currentContent.image || currentContent.fullImage) ? 'lg:grid-cols-1' : 'lg:grid-cols-2'} gap-12 items-center`}>
               <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Key Features & Capabilities</h3>
@@ -149,11 +149,11 @@ const SafetySystems: React.FC = () => {
               </div>
               {currentContent.image && !currentContent.fullImage && (
                 <div className="relative group">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                   <img 
                     src={currentContent.image} 
                     alt={currentContent.title} 
-                    className="relative rounded-xl w-full h-64 object-cover shadow-2xl" 
+                    className="relative rounded-[1.5rem] w-full h-64 object-cover shadow-2xl" 
                   />
                 </div>
               )}
@@ -165,7 +165,7 @@ const SafetySystems: React.FC = () => {
       {normalizedPath === '/control-systems/' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {currentContent.platforms?.map((platform: any) => (
-            <div key={platform.name} className="bg-blue-50/50 p-8 rounded-2xl border border-blue-100/50">
+            <div key={platform.name} className="bg-blue-50/50 p-8 rounded-[2rem] border border-blue-100/50">
               <h2 className="text-2xl font-bold text-blue-700 mb-4">{platform.name}</h2>
               <p className="text-gray-700 leading-relaxed">{platform.details}</p>
             </div>

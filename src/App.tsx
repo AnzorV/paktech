@@ -30,7 +30,7 @@ function App() {
 
         {/* Main Content Area */}
         <main className="w-full py-4 sm:py-8 px-2 sm:px-6 lg:px-8">
-          <div className="bg-white shadow-xl rounded-lg overflow-hidden flex flex-col lg:flex-row w-full min-h-[600px]">
+          <div className="bg-white shadow-2xl rounded-[2rem] overflow-hidden flex flex-col lg:flex-row w-full min-h-[600px]">
             <div className="flex-1 p-4 sm:p-6 md:p-10">
               <Routes>
                 <Route path="/" element={<Home />} />
