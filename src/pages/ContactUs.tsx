@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, User, MessageSquare, Briefcase, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
+declare global {
+  interface Window {
+    turnstile: any;
+  }
+}
+
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -13,6 +19,22 @@ const ContactUs: React.FC = () => {
 
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const savedData = sessionStorage.getItem('contactFormData');
+    if (savedData) {
+      try {
+        setFormData(JSON.parse(savedData));
+      } catch (err) {
+        console.error('Failed to parse saved form data:', err);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem('contactFormData', JSON.stringify(formData));
+  }, [formData]);
 
   useEffect(() => {
     let timeoutId: number;
@@ -27,6 +49,11 @@ const ContactUs: React.FC = () => {
   const validate = () => {
     const newErrors: Record<string, string> = {};
     
+    const validDepartments = departments.map(d => d.id);
+    if (!validDepartments.includes(formData.department)) {
+      newErrors.department = 'Invalid department selected';
+    }
+
     const trimmedName = formData.name.trim();
     if (!trimmedName) {
       newErrors.name = 'Name is required';
@@ -68,6 +95,11 @@ const ContactUs: React.FC = () => {
     if (status === 'sending') return;
     if (!validate()) return;
     
+    if (!turnstileToken) {
+      setErrors(prev => ({ ...prev, turnstile: 'Please complete the security check' }));
+      return;
+    }
+    
     setStatus('sending');
 
     const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
@@ -81,6 +113,9 @@ const ContactUs: React.FC = () => {
       return;
     }
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
     try {
       const templateParams = {
         name: formData.name.trim(),
@@ -92,6 +127,7 @@ const ContactUs: React.FC = () => {
         subject: formData.subject.trim() || 'Website Enquiry',
         department: formData.department,
         message: formData.message.trim(),
+        'g-recaptcha-response': turnstileToken,
         time: new Date().toLocaleString('en-GB', { 
           day: '2-digit', 
           month: 'short', 
@@ -103,13 +139,17 @@ const ContactUs: React.FC = () => {
       };
 
       // Send primary notification email
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      await Promise.race([
+        emailjs.send(serviceId, templateId, templateParams, publicKey),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), 15000))
+      ]);
       
       // Send separate auto-reply if a dedicated template ID is provided
       if (replyTemplateId) {
         await emailjs.send(serviceId, replyTemplateId, templateParams, publicKey);
       }
       
+      clearTimeout(timeoutId);
       setStatus('success');
       setFormData({
         name: '',
@@ -119,11 +159,35 @@ const ContactUs: React.FC = () => {
         message: ''
       });
       setErrors({});
+      sessionStorage.removeItem('contactFormData');
+      // Reset Turnstile
+      if (window.turnstile) {
+        window.turnstile.reset();
+        setTurnstileToken(null);
+      }
     } catch (err) {
       console.error('Failed to send email:', err);
+      clearTimeout(timeoutId);
       setStatus('error');
     }
   };
+
+  useEffect(() => {
+    const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+    if (siteKey && window.turnstile) {
+      window.turnstile.render('#turnstile-container', {
+        sitekey: siteKey,
+        callback: (token: string) => {
+          setTurnstileToken(token);
+          setErrors(prev => {
+            const newErrors = { ...prev };
+            delete newErrors.turnstile;
+            return newErrors;
+          });
+        },
+      });
+    }
+  }, []);
 
   const departments = [
     { id: 'Sales', name: 'Sales & Estimating', icon: <Briefcase className="w-4 h-4" /> },
@@ -243,6 +307,11 @@ const ContactUs: React.FC = () => {
               {errors.message && <p className="text-red-500 text-xs mt-1 ml-1">{errors.message}</p>}
             </div>
 
+            <div className="space-y-2">
+              <div id="turnstile-container" className="flex justify-center md:justify-start"></div>
+              {errors.turnstile && <p className="text-red-500 text-xs mt-1 ml-1">{errors.turnstile}</p>}
+            </div>
+
             <div className="pt-2 relative">
               <button
                 type="submit"
@@ -270,16 +339,25 @@ const ContactUs: React.FC = () => {
             </div>
 
             {status === 'success' && (
-              <div className="mt-4 p-4 bg-green-50 border border-green-100 text-green-700 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+              <div aria-live="polite" className="mt-4 p-4 bg-green-50 border border-green-100 text-green-700 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
                 <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0" />
                 <span className="text-sm font-semibold">Enquiry sent successfully! We'll get back to you soon.</span>
               </div>
             )}
 
             {status === 'error' && (
-              <div className="mt-4 p-4 bg-red-50 border border-red-100 text-red-700 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
-                <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
-                <span className="text-sm font-semibold">Failed to send enquiry. Please try again or email us directly.</span>
+              <div aria-live="polite" className="mt-4 p-4 bg-red-50 border border-red-100 text-red-700 rounded-xl flex flex-col gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="flex items-center gap-3">
+                  <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
+                  <span className="text-sm font-semibold">Failed to send enquiry. Please try again or email us directly.</span>
+                </div>
+                <button 
+                  type="button"
+                  onClick={() => handleSubmit()}
+                  className="text-sm font-bold text-red-700 hover:text-red-800 underline w-fit ml-8"
+                >
+                  Try again
+                </button>
               </div>
             )}
           </form>
