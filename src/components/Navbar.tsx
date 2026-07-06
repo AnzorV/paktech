@@ -207,7 +207,7 @@ const Navbar: React.FC = () => {
             <div className="lg:hidden flex items-center justify-end w-full h-14 relative z-[150] px-4">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="group relative w-12 h-12 flex items-center justify-center bg-white/15 hover:bg-white/25 active:scale-90 rounded-full border border-white/20 transition-all duration-300 shadow-xl overflow-hidden"
+                className="group relative w-12 h-12 flex items-center justify-center active:bg-white/20 active:scale-90 rounded-full transition-all duration-300 shadow-xl overflow-hidden"
                 aria-label="Toggle Menu"
               >
                 <div className="relative w-6 h-5">
@@ -261,7 +261,7 @@ const Navbar: React.FC = () => {
                   </div>
                   <button 
                     onClick={closeMenu}
-                    className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+                    className="p-3 active:bg-white/20 rounded-full transition-colors"
                   >
                     <X className="w-6 h-6" />
                   </button>
