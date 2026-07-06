@@ -321,7 +321,7 @@ const Navbar: React.FC = () => {
                                 className="overflow-hidden"
                               >
                                 <ul className="pl-4 border-l-2 border-blue-50 ml-2 mb-4 space-y-1">
-                                  {item.submenu.map((sub, sIdx) => (
+                                  {item.submenu.map((sub) => (
                                     <li key={sub.title}>
                                       <div className="flex items-center">
                                         <Link
