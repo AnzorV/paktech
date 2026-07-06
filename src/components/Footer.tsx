@@ -1,9 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, ShieldCheck, MapPin } from 'lucide-react';
+import { Mail, ShieldCheck, MapPin, ChevronUp } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   return (
     <footer className="bg-gray-900 text-gray-300 relative z-10">
@@ -98,8 +105,15 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-800 text-center text-xs text-gray-500">
-          <p>© {currentYear} Paktech Limited. All rights reserved.</p>
+        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-gray-500 order-2 md:order-1">© {currentYear} Paktech Limited. All rights reserved.</p>
+          <button 
+            onClick={scrollToTop}
+            className="order-1 md:order-2 flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all duration-300 group shadow-lg"
+          >
+            <span className="text-xs font-medium uppercase tracking-wider">Back to Top</span>
+            <ChevronUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform duration-300" />
+          </button>
         </div>
       </div>
     </footer>

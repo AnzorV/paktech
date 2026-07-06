@@ -37,15 +37,15 @@ const Sidebar: React.FC = () => {
           <Newspaper className="w-5 h-5" />
           <h2 className="text-xl font-bold uppercase tracking-wider">Latest News</h2>
         </div>
-        <div className="relative h-48 sm:h-40 md:h-48">
+        <div className="relative min-h-[160px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={newsIdx}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="absolute inset-0"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.5, ease: "anticipate" }}
+              className="will-change-transform"
             >
               <p className="text-gray-600 text-sm leading-relaxed mb-4 italic">
                 {news[newsIdx]}
@@ -64,15 +64,15 @@ const Sidebar: React.FC = () => {
           <Quote className="w-5 h-5" />
           <h2 className="text-xl font-bold uppercase tracking-wider">Testimonials</h2>
         </div>
-        <div className="relative h-64 sm:h-56 md:h-64">
+        <div className="relative min-h-[220px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={testiIdx}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.05 }}
-              transition={{ duration: 0.6, ease: "easeInOut" }}
-              className="absolute inset-0 bg-white p-6 rounded-xl border border-gray-100 shadow-sm"
+              transition={{ duration: 0.6, ease: "anticipate" }}
+              className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm will-change-transform"
             >
               <p className="text-gray-700 text-sm leading-relaxed mb-4 italic">
                 "{testimonials[testiIdx].quote}"

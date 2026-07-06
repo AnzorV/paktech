@@ -12,11 +12,13 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Sitemap from './pages/Sitemap';
 import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 import './index.css';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="min-h-screen bg-[#FFF] font-sans text-gray-900">
         {/* Header Area (Blue Background) */}
         <div className="w-full">
@@ -24,11 +26,7 @@ function App() {
         </div>
 
         {/* Navbar Area (Blue Background) */}
-        <div className="bg-pakblue border-b-4 border-pakdarkblue w-full">
-          <div className="w-full">
-            <Navbar />
-          </div>
-        </div>
+        <Navbar />
 
         {/* Main Content Area */}
         <main className="w-full py-4 sm:py-8 px-2 sm:px-6 lg:px-8">
