@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, User, MessageSquare, Briefcase, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
@@ -12,28 +12,86 @@ const ContactUs: React.FC = () => {
   });
 
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    let timeoutId: number;
+    if (status === 'success' || status === 'error') {
+      timeoutId = window.setTimeout(() => setStatus('idle'), 5000);
+    }
+    return () => {
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  }, [status]);
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    
+    const trimmedName = formData.name.trim();
+    if (!trimmedName) {
+      newErrors.name = 'Name is required';
+    } else if (trimmedName.length > 100) {
+      newErrors.name = 'Name must be under 100 characters';
+    }
+
+    const trimmedEmail = formData.email.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!trimmedEmail) {
+      newErrors.email = 'Email is required';
+    } else if (!emailRegex.test(trimmedEmail)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    const trimmedSubject = formData.subject.trim();
+    if (!trimmedSubject) {
+      newErrors.subject = 'Subject is required';
+    } else if (trimmedSubject.length > 150) {
+      newErrors.subject = 'Subject must be under 150 characters';
+    }
+
+    const trimmedMessage = formData.message.trim();
+    if (!trimmedMessage) {
+      newErrors.message = 'Message is required';
+    } else if (trimmedMessage.length < 10) {
+      newErrors.message = 'Message must be at least 10 characters';
+    } else if (trimmedMessage.length > 2000) {
+      newErrors.message = 'Message must be under 2000 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     
+    if (status === 'sending') return;
+    if (!validate()) return;
+    
     setStatus('sending');
 
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_5pd9kzl';
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_hm5d1i7';
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
     const replyTemplateId = import.meta.env.VITE_EMAILJS_REPLY_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'b8WFkZiqWCZh3HbP5';
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      console.error('EmailJS configuration is missing');
+      setStatus('error');
+      return;
+    }
 
     try {
       const templateParams = {
-        name: formData.name,
-        user_name: formData.name,
-        user_email: formData.email,
-        from_name: formData.name,
-        reply_to: formData.email,
+        name: formData.name.trim(),
+        user_name: formData.name.trim(),
+        user_email: formData.email.trim().toLowerCase(),
+        from_name: formData.name.trim(),
+        reply_to: formData.email.trim().toLowerCase(),
         to_email: 'info@paktech.net',
-        subject: formData.subject || 'Website Enquiry',
+        subject: formData.subject.trim() || 'Website Enquiry',
         department: formData.department,
-        message: formData.message,
+        message: formData.message.trim(),
         time: new Date().toLocaleString('en-GB', { 
           day: '2-digit', 
           month: 'short', 
@@ -60,10 +118,10 @@ const ContactUs: React.FC = () => {
         subject: '',
         message: ''
       });
-    } catch {
+      setErrors({});
+    } catch (err) {
+      console.error('Failed to send email:', err);
       setStatus('error');
-    } finally {
-      setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
@@ -99,36 +157,40 @@ const ContactUs: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700 ml-1">Your Name</label>
+                <label htmlFor="name" className="text-sm font-bold text-gray-700 ml-1">Your Name</label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-pakblue transition-colors">
                     <User className="w-5 h-5" />
                   </div>
                   <input
+                    id="name"
                     type="text"
                     required
                     placeholder="John Doe"
-                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pakblue/20 focus:border-pakblue focus:bg-white outline-none transition-all duration-200"
+                    className={`w-full pl-11 pr-4 py-3 bg-gray-50 border ${errors.name ? 'border-red-500' : 'border-gray-200'} rounded-xl focus:ring-2 focus:ring-pakblue/20 focus:border-pakblue focus:bg-white outline-none transition-all duration-200`}
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
                   />
                 </div>
+                {errors.name && <p className="text-red-500 text-xs mt-1 ml-1">{errors.name}</p>}
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700 ml-1">Email Address</label>
+                <label htmlFor="email" className="text-sm font-bold text-gray-700 ml-1">Email Address</label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-pakblue transition-colors">
                     <Mail className="w-5 h-5" />
                   </div>
                   <input
+                    id="email"
                     type="email"
                     required
                     placeholder="john@example.com"
-                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pakblue/20 focus:border-pakblue focus:bg-white outline-none transition-all duration-200"
+                    className={`w-full pl-11 pr-4 py-3 bg-gray-50 border ${errors.email ? 'border-red-500' : 'border-gray-200'} rounded-xl focus:ring-2 focus:ring-pakblue/20 focus:border-pakblue focus:bg-white outline-none transition-all duration-200`}
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
                   />
                 </div>
+                {errors.email && <p className="text-red-500 text-xs mt-1 ml-1">{errors.email}</p>}
               </div>
             </div>
 
@@ -154,27 +216,31 @@ const ContactUs: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700 ml-1">Subject</label>
+              <label htmlFor="subject" className="text-sm font-bold text-gray-700 ml-1">Subject</label>
               <input
+                id="subject"
                 type="text"
                 required
                 placeholder="How can we help?"
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pakblue/20 focus:border-pakblue focus:bg-white outline-none transition-all duration-200"
+                className={`w-full px-4 py-3 bg-gray-50 border ${errors.subject ? 'border-red-500' : 'border-gray-200'} rounded-xl focus:ring-2 focus:ring-pakblue/20 focus:border-pakblue focus:bg-white outline-none transition-all duration-200`}
                 value={formData.subject}
                 onChange={e => setFormData({...formData, subject: e.target.value})}
               />
+              {errors.subject && <p className="text-red-500 text-xs mt-1 ml-1">{errors.subject}</p>}
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-bold text-gray-700 ml-1">Your Message</label>
+              <label htmlFor="message" className="text-sm font-bold text-gray-700 ml-1">Your Message</label>
               <textarea
+                id="message"
                 required
                 rows={4}
                 placeholder="Please describe your enquiry in detail..."
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pakblue/20 focus:border-pakblue focus:bg-white outline-none transition-all duration-200 resize-none"
+                className={`w-full px-4 py-3 bg-gray-50 border ${errors.message ? 'border-red-500' : 'border-gray-200'} rounded-xl focus:ring-2 focus:ring-pakblue/20 focus:border-pakblue focus:bg-white outline-none transition-all duration-200 resize-none`}
                 value={formData.message}
                 onChange={e => setFormData({...formData, message: e.target.value})}
               ></textarea>
+              {errors.message && <p className="text-red-500 text-xs mt-1 ml-1">{errors.message}</p>}
             </div>
 
             <div className="pt-2 relative">
