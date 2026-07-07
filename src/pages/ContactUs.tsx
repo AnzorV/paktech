@@ -21,7 +21,9 @@ const ContactUs: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [widgetId, setWidgetId] = useState<string | null>(null);
+  const turnstileRendered = React.useRef(false);
 
+  // Clear form data on success or error reset
   useEffect(() => {
     let saveTimeout: number;
     saveTimeout = window.setTimeout(() => {
@@ -158,6 +160,7 @@ const ContactUs: React.FC = () => {
       if (window.turnstile && widgetId) {
         window.turnstile.reset(widgetId);
         setTurnstileToken(null);
+        turnstileRendered.current = false;
       }
     } catch (err) {
       console.error('Failed to send email:', err);
@@ -173,9 +176,12 @@ const ContactUs: React.FC = () => {
     }
 
     const renderTurnstile = () => {
-      console.log('Attempting to render Turnstile...');
-      if (window.turnstile && document.getElementById('turnstile-container')) {
+      if (turnstileRendered.current) return;
+      
+      const container = document.getElementById('turnstile-container');
+      if (window.turnstile && container) {
         try {
+          turnstileRendered.current = true;
           const id = window.turnstile.render('#turnstile-container', {
             sitekey: siteKey,
             callback: (token: string) => {
@@ -188,40 +194,55 @@ const ContactUs: React.FC = () => {
             },
             'error-callback': (err: any) => {
               console.error('Turnstile error:', err);
+              turnstileRendered.current = false;
+            },
+            'expired-callback': () => {
+              setTurnstileToken(null);
+              turnstileRendered.current = false;
             }
           });
           setWidgetId(id);
-          console.log('Turnstile rendered successfully');
         } catch (e) {
           console.error('Turnstile render failed:', e);
+          turnstileRendered.current = false;
         }
-      } else {
-        console.warn('Turnstile render skipped: window.turnstile or container missing', {
-          hasTurnstile: !!window.turnstile,
-          hasContainer: !!document.getElementById('turnstile-container')
-        });
       }
     };
 
+    let interval: number;
+    let timer: number;
+
     if (window.turnstile) {
-      renderTurnstile();
+      timer = window.setTimeout(renderTurnstile, 150);
     } else {
-      // If script hasn't loaded yet, wait for it
-      const interval = setInterval(() => {
+      interval = window.setInterval(() => {
         if (window.turnstile) {
           renderTurnstile();
           clearInterval(interval);
         }
       }, 500);
-      return () => clearInterval(interval);
     }
 
     return () => {
-      if (widgetId && window.turnstile) {
-        window.turnstile.remove(widgetId);
-      }
+      if (timer) window.clearTimeout(timer);
+      if (interval) window.clearInterval(interval);
+      // We don't remove the widget here if we want to avoid re-renders
+      // But we should clean it up when the component truly unmounts
     };
   }, []);
+
+  // Separate effect for cleanup to avoid triggering the render effect
+  useEffect(() => {
+    return () => {
+      if (widgetId && window.turnstile) {
+        try {
+          window.turnstile.remove(widgetId);
+        } catch (e) {
+          console.warn('Turnstile remove failed:', e);
+        }
+      }
+    };
+  }, [widgetId]);
 
   useEffect(() => {
     const savedData = sessionStorage.getItem('contactFormData');
@@ -446,7 +467,7 @@ const ContactUs: React.FC = () => {
                 <div>
                   <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Our Office</p>
                   <p className="text-gray-700 font-medium leading-relaxed">
-                    1st Floor, 10-12 Jordan Gate,<br />
+                    10-12 Jordangate,<br />
                     Macclesfield, SK10 1EE, UK
                   </p>
                 </div>
@@ -466,7 +487,7 @@ const ContactUs: React.FC = () => {
             </div>
 
             <a 
-              href="https://goo.gl/maps/PaktechLimited" 
+              href="https://www.google.com/maps/place/10-12+Jordangate,+Macclesfield+SK10+1EE/@53.2621738,-2.1276026,17z/data=!3m1!4b1!4m6!3m5!1s0x487a4938f23cbead:0x77de9b346c806cfb!8m2!3d53.2621713!4d-2.1255589!16s%2Fg%2F11crqjrfky?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-xl transition-all shadow-lg active:scale-[0.98]"
@@ -478,10 +499,9 @@ const ContactUs: React.FC = () => {
         </section>
       </div>
 
-      {/* Full Width Map Section */}
       <section className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white h-[500px] relative group">
         <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1191.2367642873595!2d-2.1287116841616!3d53.33475197997576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487a36c64993132f%3A0xc6c7936a9e88a0b9!2sPaktech%20Limited!5e0!3m2!1sen!2suk!4v1719331000000!5m2!1sen!2suk" 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2382.472714524419!2d-2.127747523268801!3d53.26217448206161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487a4938f23cbead%3A0x77de9b346c806cfb!2s10-12%20Jordangate%2C%20Macclesfield%20SK10%201EE!5e0!3m2!1sen!2suk!4v1720352520000!5m2!1sen!2suk" 
           width="100%" 
           height="100%" 
           style={{ border: 0 }} 
