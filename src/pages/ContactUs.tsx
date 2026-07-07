@@ -169,9 +169,11 @@ const ContactUs: React.FC = () => {
           // Small delay before re-render attempt
           setTimeout(() => {
             const container = document.getElementById('turnstile-container');
-            if (container) container.innerHTML = ''; // Clear container
+            if (container) {
+              container.innerHTML = ''; // Clear container
+              setWidgetId(null); // Allow new widget ID
+            }
             // The main useEffect fallback or next render cycle will pick it up
-            // Or we can manually trigger it if we want to be aggressive
           }, 100);
         }
       }
@@ -193,6 +195,13 @@ const ContactUs: React.FC = () => {
       
       const container = document.getElementById('turnstile-container');
       if (window.turnstile && container) {
+        // Prevent double rendering into the same container
+        if (container.hasChildNodes()) {
+          console.warn('Turnstile container already has content, skipping render');
+          turnstileRendered.current = true;
+          return;
+        }
+
         try {
           turnstileRendered.current = true;
           const id = window.turnstile.render('#turnstile-container', {
@@ -246,7 +255,13 @@ const ContactUs: React.FC = () => {
     // Fallback interval just in case event is missed
     const fallbackInterval = setInterval(() => {
       if (window.turnstile && !turnstileRendered.current) {
-        renderTurnstile();
+        const container = document.getElementById('turnstile-container');
+        if (container && !container.hasChildNodes()) {
+          renderTurnstile();
+        } else if (container && container.hasChildNodes()) {
+          turnstileRendered.current = true;
+          clearInterval(fallbackInterval);
+        }
       }
       if (turnstileRendered.current) {
         clearInterval(fallbackInterval);
@@ -264,11 +279,14 @@ const ContactUs: React.FC = () => {
       if (widgetId && window.turnstile) {
         try {
           window.turnstile.remove(widgetId);
+          setWidgetId(null);
         } catch (e) {
           console.warn('Turnstile remove failed:', e);
         }
       }
       turnstileRendered.current = false;
+      const container = document.getElementById('turnstile-container');
+      if (container) container.innerHTML = '';
     };
   }, [widgetId]);
 

@@ -13,8 +13,12 @@
     <script>
       window.onTurnstileLoad = function() {
         window.isTurnstileReady = true;
-        if (window.dispatchEvent) {
-          window.dispatchEvent(new Event('turnstile-ready'));
+        try {
+          if (window.dispatchEvent) {
+            window.dispatchEvent(new Event('turnstile-ready'));
+          }
+        } catch (e) {
+          console.error('Failed to dispatch turnstile-ready event:', e);
         }
       };
     </script>
