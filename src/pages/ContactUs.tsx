@@ -5,6 +5,8 @@ import emailjs from '@emailjs/browser';
 declare global {
   interface Window {
     turnstile: any;
+    onTurnstileLoad: () => void;
+    isTurnstileReady?: boolean;
   }
 }
 
@@ -158,9 +160,20 @@ const ContactUs: React.FC = () => {
       sessionStorage.removeItem('contactFormData');
       // Reset Turnstile
       if (window.turnstile && widgetId) {
-        window.turnstile.reset(widgetId);
-        setTurnstileToken(null);
-        turnstileRendered.current = false;
+        try {
+          window.turnstile.reset(widgetId);
+          setTurnstileToken(null);
+        } catch (e) {
+          console.warn('Turnstile reset failed, re-rendering:', e);
+          turnstileRendered.current = false;
+          // Small delay before re-render attempt
+          setTimeout(() => {
+            const container = document.getElementById('turnstile-container');
+            if (container) container.innerHTML = ''; // Clear container
+            // The main useEffect fallback or next render cycle will pick it up
+            // Or we can manually trigger it if we want to be aggressive
+          }, 100);
+        }
       }
     } catch (err) {
       console.error('Failed to send email:', err);
@@ -194,7 +207,17 @@ const ContactUs: React.FC = () => {
             },
             'error-callback': (err: any) => {
               console.error('Turnstile error:', err);
-              turnstileRendered.current = false;
+              // Error 300030: The widget was removed or became invalid
+              if (err === '300030' || err === 300030) {
+                turnstileRendered.current = false;
+                setTurnstileToken(null);
+                const container = document.getElementById('turnstile-container');
+                if (container) container.innerHTML = '';
+                // Re-attempt render
+                setTimeout(renderTurnstile, 500);
+              } else {
+                turnstileRendered.current = false;
+              }
             },
             'expired-callback': () => {
               setTurnstileToken(null);
@@ -209,29 +232,33 @@ const ContactUs: React.FC = () => {
       }
     };
 
-    let interval: number;
-    let timer: number;
+    const handleReady = () => {
+      renderTurnstile();
+    };
 
-    if (window.turnstile) {
-      timer = window.setTimeout(renderTurnstile, 150);
+    if (window.isTurnstileReady && window.turnstile) {
+      // Small delay to ensure DOM is ready even if script was already loaded
+      setTimeout(renderTurnstile, 100);
     } else {
-      interval = window.setInterval(() => {
-        if (window.turnstile) {
-          renderTurnstile();
-          clearInterval(interval);
-        }
-      }, 500);
+      window.addEventListener('turnstile-ready', handleReady);
     }
 
+    // Fallback interval just in case event is missed
+    const fallbackInterval = setInterval(() => {
+      if (window.turnstile && !turnstileRendered.current) {
+        renderTurnstile();
+      }
+      if (turnstileRendered.current) {
+        clearInterval(fallbackInterval);
+      }
+    }, 2000);
+
     return () => {
-      if (timer) window.clearTimeout(timer);
-      if (interval) window.clearInterval(interval);
-      // We don't remove the widget here if we want to avoid re-renders
-      // But we should clean it up when the component truly unmounts
+      window.removeEventListener('turnstile-ready', handleReady);
+      clearInterval(fallbackInterval);
     };
   }, []);
 
-  // Separate effect for cleanup to avoid triggering the render effect
   useEffect(() => {
     return () => {
       if (widgetId && window.turnstile) {
@@ -241,6 +268,7 @@ const ContactUs: React.FC = () => {
           console.warn('Turnstile remove failed:', e);
         }
       }
+      turnstileRendered.current = false;
     };
   }, [widgetId]);
 

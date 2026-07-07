@@ -9,7 +9,15 @@
     <meta property="og:description" content="Expert engineering services for critical infrastructure, safety systems, and automated control solutions." />
     <meta property="og:type" content="website" />
     <title>Paktech Ltd | Industrial Safety & Control Systems</title>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad" async defer></script>
+    <script>
+      window.onTurnstileLoad = function() {
+        window.isTurnstileReady = true;
+        if (window.dispatchEvent) {
+          window.dispatchEvent(new Event('turnstile-ready'));
+        }
+      };
+    </script>
   </head>
   <body>
     <div id="root"></div>
