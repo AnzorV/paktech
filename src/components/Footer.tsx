@@ -109,7 +109,7 @@ const Footer: React.FC = () => {
                   to="/contact-us/" 
                   className="hover:text-white transition-colors py-3 min-h-[48px] flex items-center cursor-pointer"
                 >
-                  Send an Enquiry
+                  Contact Us
                 </Link>
               </div>
             </div>
