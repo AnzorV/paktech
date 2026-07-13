@@ -8,7 +8,6 @@ import SCADA from './pages/SCADA';
 import PowerSupplies from './pages/PowerSupplies';
 import PakNet from './pages/PakNet';
 import ContactUs from './pages/ContactUs';
-import PrivacyPolicy from './pages/PrivacyPolicy';
 import Sitemap from './pages/Sitemap';
 import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
@@ -43,7 +42,6 @@ function App() {
                 <Route path="/power-supply-services" element={<PowerSupplies />} />
                 <Route path="/paknet" element={<PakNet />} />
                 <Route path="/contact-us" element={<ContactUs />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/sitemap" element={<Sitemap />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>

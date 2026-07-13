@@ -37,7 +37,6 @@ const Sitemap: React.FC = () => {
       title: 'Company Info',
       icon: <Info className="w-5 h-5" />,
       links: [
-        { name: 'Privacy Policy', path: '/privacy-policy/' },
         { name: 'Sitemap', path: '/sitemap/' },
       ]
     }

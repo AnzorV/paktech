@@ -78,16 +78,6 @@ const Footer: React.FC = () => {
                   </span>
                 </Link>
               </li>
-              <li>
-                <Link 
-                  to="/privacy-policy/" 
-                  className="hover:text-white transition-colors block py-3 min-h-[48px] flex items-center group cursor-pointer"
-                >
-                  <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                    Privacy Statement
-                  </span>
-                </Link>
-              </li>
               <li className="text-xs text-gray-500 pt-2">
                 Co. Reg: 3325624<br />
                 VAT: 765 2897 80
